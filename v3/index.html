@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Island Voyager — Unit 5 Natural Wonders — Game cho Kiến Quốc</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Nunito',sans-serif;background:linear-gradient(180deg,#FDFBF3 0%,#EFF6FF 55%,#FEF3C7 130%);color:#12263A;padding:22px 14px 70px;min-height:100vh}
+  .wrap{max-width:900px;margin:0 auto}
+  header{text-align:center;padding:30px 18px 24px;background:linear-gradient(135deg,#7F1D1D,#B91C1C 45%,#1D4ED8);color:#fff;border-radius:22px;box-shadow:0 14px 30px rgba(127,29,29,.30)}
+  header .badge{display:inline-block;background:#F59E0B;color:#451A03;font-weight:800;padding:5px 16px;border-radius:999px;font-size:13px;letter-spacing:1.2px}
+  header h1{font-family:'Baloo 2',cursive;font-size:clamp(25px,5.2vw,38px);margin:12px 0 6px;line-height:1.18}
+  header p{color:#FDE68A;font-size:16px}
+  .card{background:#fff;border-radius:18px;box-shadow:0 4px 10px rgba(18,38,58,.08),0 14px 30px rgba(18,38,58,.10);padding:22px;margin-top:18px;border-top:6px solid #1D4ED8}
+  .card.gold{border-top-color:#F59E0B}
+  .card.red{border-top-color:#B91C1C}
+  h2{font-family:'Baloo 2',cursive;font-size:24px;color:#12263A;margin-bottom:6px}
+  .sub{color:#4E6A82;font-size:15.5px;line-height:1.5}
+  input[type=text]{width:100%;padding:13px 15px;font-size:17px;border:2px solid #CFE0DA;border-radius:12px;margin:8px 0 10px;font-family:inherit}
+  input[type=text]:focus{outline:none;border-color:#1D4ED8}
+  .btn{background:#12263A;color:#fff;border:none;padding:13px 30px;border-radius:999px;font-size:17px;font-weight:800;cursor:pointer;font-family:inherit;box-shadow:0 6px 14px rgba(18,38,58,.25)}
+  .btn:hover{background:#1D3A5F}
+  .btn.blue{background:#1D4ED8}.btn.blue:hover{background:#1E40AF}
+  .btn.gold{background:#F59E0B;color:#451A03}.btn.gold:hover{background:#D97706}
+  .btn.small{padding:9px 22px;font-size:15px}
+  .fc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;margin-top:14px}
+  .fc{perspective:700px;height:172px;cursor:pointer}
+  .fc-inner{position:relative;width:100%;height:100%;transition:transform .55s;transform-style:preserve-3d}
+  .fc.flipped .fc-inner{transform:rotateY(180deg)}
+  .fc-face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12px;text-align:center;box-shadow:0 6px 16px rgba(18,38,58,.14)}
+  .fc-front{background:linear-gradient(160deg,#EFF6FF,#DBEAFE);border:2px dashed #1D4ED8}
+  .fc-front .em{font-size:52px}
+  .fc-front .hint{font-size:12.5px;color:#1D4ED8;font-weight:800;margin-top:6px;letter-spacing:.6px}
+  .fc-back{background:linear-gradient(160deg,#7F1D1D,#B91C1C);color:#fff;transform:rotateY(180deg)}
+  .fc-back .w{font-family:'Baloo 2',cursive;font-size:21px;color:#FDE68A}
+  .fc-back .ipa{font-size:14px;color:#FECACA}
+  .fc-back .vn{font-size:15px;font-weight:800;margin-top:3px}
+  .fc-back .ex{font-size:13px;color:#FEE2E2;margin-top:6px;line-height:1.4;font-style:italic}
+  .speak{margin-top:8px;background:#F59E0B;border:none;border-radius:999px;padding:5px 14px;font-weight:800;cursor:pointer;font-size:14px;color:#451A03}
+  .mission-head{display:flex;align-items:center;gap:12px;margin-top:34px}
+  .mission-head .ic{font-size:34px;background:#fff;border-radius:50%;width:58px;height:58px;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 14px rgba(18,38,58,.15)}
+  .mission-head h2{font-size:25px}
+  .mission-head p{color:#4E6A82;font-size:14.5px;font-weight:700}
+  .part-intro{font-size:16px;font-weight:700;color:#7F1D1D;margin:16px 2px 4px}
+  .q{font-size:17.5px;font-weight:700;line-height:1.5;margin-bottom:6px}
+  .passage{background:#FFFBEB;border-left:5px solid #F59E0B;border-radius:10px;padding:15px 17px;font-size:16.5px;line-height:1.65;margin:12px 0 4px;color:#173F57}
+  .opts label{display:block;padding:11px 15px;border:2px solid #E1E9E6;border-radius:12px;margin:8px 0;cursor:pointer;font-size:16.5px;transition:.15s;background:#FDFEFE;line-height:1.45}
+  .opts label:hover{border-color:#1D4ED8;background:#EFF6FF}
+  .opts input{margin-right:9px;transform:scale(1.2)}
+  .opts label.correct{border-color:#1E9E6A;background:#E7F7EF}
+  .opts label.wrong{border-color:#D64545;background:#FDECEC}
+  .explain{display:none;margin-top:12px;background:#EFF6FF;border:1px solid #BFDBFE;color:#1E40AF;border-radius:10px;padding:11px 14px;font-size:15.5px;line-height:1.55}
+  .feedback{font-weight:800;margin-top:9px;font-size:16px;min-height:20px}
+  .ok{color:#1E9E6A}.no{color:#D64545}
+  .progress{text-align:center;font-weight:800;color:#7F1D1D;margin-top:22px;font-size:17px}
+  #mainArea{display:none}
+  #report{display:none;text-align:center}
+  #report .score{font-family:'Baloo 2',cursive;font-size:52px;font-weight:800;color:#12263A}
+  .per{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:12px 0}
+  .per span{background:#EFF6FF;border:2px solid #BFDBFE;border-radius:999px;padding:6px 14px;font-weight:800;font-size:14.5px}
+  .code{font-family:ui-monospace,monospace;background:#12263A;color:#FDE68A;padding:10px 14px;border-radius:10px;font-size:13.5px;display:inline-block;margin-top:8px;word-break:break-all;max-width:100%}
+  .small{font-size:14px;color:#4E6A82;margin-top:10px;line-height:1.55}
+  footer{text-align:center;margin-top:34px;color:#7C2D12;font-weight:700;font-size:14.5px;line-height:1.6}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="badge">📗 GLOBAL SUCCESS 6 · UNIT 5: NATURAL WONDERS OF VIET NAM 📗</span>
+    <h1>ISLAND VOYAGER — UNIT 5 NATURAL WONDERS</h1>
+    <p>Game riêng cho Kiến Quốc · 100 câu trắc nghiệm + thử thách Nói &amp; Viết · Trình độ B1+ · Thời gian gợi ý: 90 phút</p>
+  </header>
+
+  <div class="card" id="startCard">
+    <h2>🎯 Chào bạn!</h2>
+    <p class="sub">Nhập tên của bạn rồi bấm <b>Start</b>. Game gồm <b>100 câu</b>: <b>Từ vựng (20) · Ngữ pháp (30) · Điền khuyết (10) · Đọc hiểu 1 (15) · Đọc hiểu 2 (15) · Sắp xếp câu (10)</b>. Cuối game còn có <b>1 thử thách Nói</b> và <b>1 thử thách Viết</b> (không tính điểm, để luyện thêm). Mỗi câu có nút <b>Check</b> riêng kèm giải thích tiếng Việt — cứ bình tĩnh làm hết 100 câu nhé!</p>
+    <input type="text" id="studentName" placeholder="Nhập họ tên của bạn...">
+    <button class="btn blue" onclick="startGame()">🚀 Start — Bắt đầu!</button>
+    <p class="small">Có <b>mã khôi phục</b> từ lần làm trước? Dán mã vào ô dưới rồi bấm Restore để làm tiếp đúng chỗ cũ:<br>
+    <input type="text" id="restoreCode" placeholder="Recovery code (KQU5C-...)">
+    <button class="btn small gold" onclick="restoreGame()">Restore</button></p>
+  </div>
+
+  <div id="mainArea">
+    <div class="card gold">
+      <h2>🃏 Flashcards — Ôn từ vựng Unit 5 trước khi chơi</h2>
+      <p class="sub">Bấm vào từng thẻ để lật xem từ vựng. Bấm 🔊 để nghe phát âm giọng Anh-Anh.</p>
+      <div class="fc-grid" id="fcGrid"></div>
+    </div>
+
+    <div id="sections"></div>
+    <div id="challenges"></div>
+
+    <p class="progress" id="progressLine">Đã kiểm tra: 0 / 100 câu 🌏</p>
+
+    <div class="card gold" id="report">
+      <h2>🏆 PROGRESS REPORT — THẺ BÁO CÁO ĐIỂM</h2>
+      <p style="font-size:18px;margin-top:4px" id="reportName"></p>
+      <div class="score" id="reportScore"></div>
+      <div class="per" id="reportPer"></div>
+      <p id="reportMsg" style="font-size:16.5px;line-height:1.55"></p>
+      <p class="small">Chụp màn hình báo cáo này gửi cho cô giáo nhé! 📸<br>Mã khôi phục tiến độ (lần sau dán vào ô Restore ở màn hình đầu để làm tiếp):</p>
+      <div class="code" id="reportCode"></div>
+    </div>
+  </div>
+  <footer>✍️ Created by Mrs. Thanh Giang — Giáo viên tiếng Anh, Trường THPT Chuyên Thoại Ngọc Hầu, tỉnh An Giang</footer>
+</div>
+
+<script>
+var DATA = {"title": "Island Voyager — Unit 5 Natural Wonders", "flashcards": [{"emoji": "🏝️", "word": "island", "ipa": "/ˈaɪlənd/", "vn": "hòn đảo", "ex": "Phu Quoc is the largest island in Viet Nam."}, {"emoji": "🕳️", "word": "cave", "ipa": "/keɪv/", "vn": "hang động", "ex": "The cave is dark, so bring a torch."}, {"emoji": "🌊", "word": "waterfall", "ipa": "/ˈwɔːtəfɔːl/", "vn": "thác nước", "ex": "We took photos near the beautiful waterfall."}, {"emoji": "🏜️", "word": "desert", "ipa": "/ˈdezət/", "vn": "sa mạc", "ex": "It is very hot and dry in the desert."}, {"emoji": "🏞️", "word": "valley", "ipa": "/ˈvæli/", "vn": "thung lũng", "ex": "A small village lies in the green valley."}, {"emoji": "🌅", "word": "bay", "ipa": "/beɪ/", "vn": "vịnh", "ex": "Ha Long Bay has thousands of islands."}, {"emoji": "🌄", "word": "scenery", "ipa": "/ˈsiːnəri/", "vn": "phong cảnh", "ex": "The scenery in Sa Pa is amazing."}, {"emoji": "🎒", "word": "backpack", "ipa": "/ˈbækpæk/", "vn": "ba lô", "ex": "He put his map and water in his backpack."}, {"emoji": "🧭", "word": "compass", "ipa": "/ˈkʌmpəs/", "vn": "la bàn", "ex": "Use a compass to find the way in the forest."}, {"emoji": "🔦", "word": "torch", "ipa": "/tɔːtʃ/", "vn": "đèn pin", "ex": "Don't forget to bring a torch to the cave."}, {"emoji": "🧴", "word": "suncream", "ipa": "/ˈsʌn kriːm/", "vn": "kem chống nắng", "ex": "Put on suncream before you go swimming."}, {"emoji": "🛏️", "word": "sleeping bag", "ipa": "/ˈsliːpɪŋ bæɡ/", "vn": "túi ngủ", "ex": "We slept in sleeping bags in the tent."}], "sections": [{"key": "vocab", "title": "Vocabulary in Context", "icon": "📚", "max": 20, "parts": [{"intro": "Choose the best answer to complete each sentence.", "passage": "", "qs": [{"id": "Q1", "num": 1, "q": "Ha Long ___ is one of the most famous natural wonders of Viet Nam.", "options": ["Bay", "Cave", "Desert", "Valley"], "answer": 0, "explain": "Ha Long Bay là tên riêng chỉ vịnh Hạ Long."}, {"id": "Q2", "num": 2, "q": "We walked through the dark ___ with torches because there was no light inside.", "options": ["waterfall", "cave", "beach", "forest"], "answer": 1, "explain": "Nơi tối, phải dùng đèn pin để đi vào là hang động (cave)."}, {"id": "Q3", "num": 3, "q": "The Sahara is the largest hot ___ in the world, with sand everywhere and almost no rain.", "options": ["lake", "river", "desert", "island"], "answer": 2, "explain": "Sahara là sa mạc (desert) nóng lớn nhất thế giới."}, {"id": "Q4", "num": 4, "q": "From the top of the ___, we could see the whole valley below us.", "options": ["beach", "lake", "river", "mountain"], "answer": 3, "explain": "Đứng trên đỉnh núi (mountain) mới nhìn xuống được thung lũng."}, {"id": "Q5", "num": 5, "q": "The ___ fell from a high rock into a clear pool, making a loud sound.", "options": ["waterfall", "valley", "desert", "bay"], "answer": 0, "explain": "Thác nước (waterfall) đổ từ trên cao xuống hồ."}, {"id": "Q6", "num": 6, "q": "The small town lies in a green ___ between two high mountains.", "options": ["island", "valley", "cave", "beach"], "answer": 1, "explain": "Thung lũng (valley) nằm giữa hai dãy núi."}, {"id": "Q7", "num": 7, "q": "We took a ___ trip around the bay to visit the floating villages.", "options": ["backpack", "compass", "boat", "torch"], "answer": 2, "explain": "Đi quanh vịnh thăm làng nổi phải đi bằng thuyền: boat trip."}, {"id": "Q8", "num": 8, "q": "The ___ showed us around the island and told us many interesting stories about it.", "options": ["scenery", "wonder", "visitor", "guide"], "answer": 3, "explain": "Người dẫn đoàn và kể chuyện cho khách là hướng dẫn viên (guide)."}, {"id": "Q9", "num": 9, "q": "The ___ here is amazing: green mountains, blue sea and white sand.", "options": ["scenery", "suncream", "rock", "map"], "answer": 0, "explain": "Scenery = phong cảnh thiên nhiên."}, {"id": "Q10", "num": 10, "q": "Phu Quoc is very ___ with tourists because of its beautiful beaches.", "options": ["natural", "popular", "deep", "far"], "answer": 1, "explain": "Popular with tourists = được du khách yêu thích, nổi tiếng."}, {"id": "Q11", "num": 11, "q": "The lake is quite ___ — about 20 metres from the surface to the bottom.", "options": ["high", "wide", "deep", "natural"], "answer": 2, "explain": "Deep dùng để chỉ độ sâu của hồ, biển."}, {"id": "Q12", "num": 12, "q": "How ___ is it from the city to the beach? — About 30 kilometres.", "options": ["deep", "high", "wide", "far"], "answer": 3, "explain": "How far...? dùng để hỏi khoảng cách."}, {"id": "Q13", "num": 13, "q": "This beach is completely ___; no one built it — nature made it.", "options": ["natural", "popular", "fantastic", "amazing"], "answer": 0, "explain": "Natural = tự nhiên, do thiên nhiên tạo ra, không phải con người làm."}, {"id": "Q14", "num": 14, "q": "Don't forget to put on ___ before going out in the strong sun.", "options": ["sleeping bag", "suncream", "compass", "backpack"], "answer": 1, "explain": "Suncream = kem chống nắng, bôi trước khi ra nắng."}, {"id": "Q15", "num": 15, "q": "We used a ___ to find the way through the forest when we got lost.", "options": ["torch", "boat", "compass", "rock"], "answer": 2, "explain": "Compass = la bàn, dùng để tìm đường."}, {"id": "Q16", "num": 16, "q": "At night, we slept in our ___ inside the tent because it was cold outside.", "options": ["suncream", "map", "backpack", "sleeping bags"], "answer": 3, "explain": "Sleeping bag = túi ngủ, dùng khi ngủ trong lều."}, {"id": "Q17", "num": 17, "q": "The river is very ___ here, so big boats can travel on it easily.", "options": ["wide", "high", "far", "popular"], "answer": 0, "explain": "Wide dùng cho sông rộng, thuyền lớn đi lại dễ dàng."}, {"id": "Q18", "num": 18, "q": "Fansipan is the ___ mountain in Viet Nam, at 3,143 metres above sea level.", "options": ["higher", "highest", "more high", "most high"], "answer": 1, "explain": "So sánh nhất của high là the highest."}, {"id": "Q19", "num": 19, "q": "What a ___ view! I have never seen anything so beautiful in my life.", "options": ["natural", "popular", "fantastic", "deep"], "answer": 2, "explain": "Fantastic = tuyệt vời, thường đi với view (khung cảnh)."}, {"id": "Q20", "num": 20, "q": "Thousands of tourists ___ Ha Long Bay every year to see its islands and caves.", "options": ["travel", "guide", "wonder", "visit"], "answer": 3, "explain": "Visit = thăm, tham quan; chủ ngữ số nhiều dùng động từ nguyên thể."}]}]}, {"key": "grammar", "title": "Grammar: Countable / Uncountable & must / mustn't", "icon": "🧩", "max": 30, "parts": [{"intro": "Choose the best answer to complete each sentence.", "passage": "", "qs": [{"id": "Q21", "num": 21, "q": "How ___ water do we need for the two-day trip?", "options": ["much", "many", "a few", "some bottles"], "answer": 0, "explain": "Water không đếm được → How much."}, {"id": "Q22", "num": 22, "q": "There are ___ islands in Ha Long Bay — nearly two thousand!", "options": ["much", "many", "a little", "any"], "answer": 1, "explain": "Islands đếm được số nhiều → many."}, {"id": "Q23", "num": 23, "q": "We don't have ___ suncream left. Let's buy a tube at the shop.", "options": ["some", "a few", "any", "many"], "answer": 2, "explain": "Câu phủ định dùng any."}, {"id": "Q24", "num": 24, "q": "There is only ___ bread left in the bag, so let's buy more for lunch.", "options": ["a few", "many", "some sandwiches", "a little"], "answer": 3, "explain": "Bread không đếm được, lượng ít → a little."}, {"id": "Q25", "num": 25, "q": "She packed ___ clothes for the five-day trip — her bag is full!", "options": ["a lot of", "much", "a little", "any"], "answer": 0, "explain": "Clothes số nhiều, số lượng nhiều → a lot of."}, {"id": "Q26", "num": 26, "q": "Is there ___ milk in the fridge for breakfast?", "options": ["some", "any", "many", "a few"], "answer": 1, "explain": "Câu hỏi với danh từ không đếm được dùng any."}, {"id": "Q27", "num": 27, "q": "How ___ tourists visit the island every day in summer?", "options": ["much", "a little", "many", "any"], "answer": 2, "explain": "Tourists đếm được → How many."}, {"id": "Q28", "num": 28, "q": "We saw ___ dolphins near the boat this morning — only three or four.", "options": ["much", "a little", "any", "a few"], "answer": 3, "explain": "Dolphins đếm được, số lượng ít (3–4 con) → a few."}, {"id": "Q29", "num": 29, "q": "You need ___ information before the trip, so read the guidebook carefully.", "options": ["some", "any", "a few", "many"], "answer": 0, "explain": "Information không đếm được, câu khẳng định → some."}, {"id": "Q30", "num": 30, "q": "There isn't ___ rice in the bag — just a little at the bottom.", "options": ["a few", "much", "many", "some"], "answer": 1, "explain": "Rice không đếm được → much trong câu phủ định."}, {"id": "Q31", "num": 31, "q": "He drank ___ water after climbing the high mountain.", "options": ["a few", "many", "a lot of", "any"], "answer": 2, "explain": "Water không đếm được, uống rất nhiều → a lot of."}, {"id": "Q32", "num": 32, "q": "___ sugar do you want in your tea? — Just a little, please.", "options": ["How many", "How few", "How long", "How much"], "answer": 3, "explain": "Sugar không đếm được → How much."}, {"id": "Q33", "num": 33, "q": "There are ___ people on the beach today — it is very crowded.", "options": ["a lot of", "a little", "much", "any"], "answer": 0, "explain": "People số nhiều, rất đông → a lot of."}, {"id": "Q34", "num": 34, "q": "Can I have ___ more rice, please? It is delicious.", "options": ["a few", "a little", "many", "any"], "answer": 1, "explain": "Rice không đếm được, xin thêm một ít → a little."}, {"id": "Q35", "num": 35, "q": "You ___ wear a life jacket on the boat. It is the rule for everyone.", "options": ["mustn't", "can", "must", "shouldn't"], "answer": 2, "explain": "Quy định bắt buộc trên thuyền → must (phải)."}, {"id": "Q36", "num": 36, "q": "Visitors ___ feed the monkeys in the national park. It is forbidden.", "options": ["must", "have to", "should", "mustn't"], "answer": 3, "explain": "Việc bị cấm (forbidden) → mustn't."}, {"id": "Q37", "num": 37, "q": "We ___ leave now, or we will miss the last boat to the island.", "options": ["must", "mustn't", "not", "don't"], "answer": 0, "explain": "Phải đi ngay kẻo lỡ chuyến thuyền cuối → must."}, {"id": "Q38", "num": 38, "q": "You ___ throw rubbish into the sea. Keep the beach clean!", "options": ["must", "mustn't", "have", "will"], "answer": 1, "explain": "Cấm xả rác xuống biển → mustn't."}, {"id": "Q39", "num": 39, "q": "Students ___ be quiet and do their own work during the test.", "options": ["mustn't to", "musts", "must", "must to"], "answer": 2, "explain": "Sau must là động từ nguyên thể; không dùng 'must to' hay 'musts'."}, {"id": "Q40", "num": 40, "q": "He ___ smoke here. There is a 'No smoking' sign on the wall.", "options": ["must", "has to", "must to", "mustn't"], "answer": 3, "explain": "Có biển cấm hút thuốc → mustn't."}, {"id": "Q41", "num": 41, "q": "To stay safe in the strong sun, you ___ put on suncream and wear a hat.", "options": ["must", "mustn't", "not", "doesn't"], "answer": 0, "explain": "Việc cần làm để an toàn → must."}, {"id": "Q42", "num": 42, "q": "You ___ take photos in this cave — it is forbidden to use cameras here.", "options": ["must", "mustn't", "have to", "should to"], "answer": 1, "explain": "It's forbidden = bị cấm → mustn't."}, {"id": "Q43", "num": 43, "q": "Drivers ___ stop when the traffic light is red.", "options": ["mustn't", "don't must", "must", "musts"], "answer": 2, "explain": "Must + động từ nguyên thể: must stop."}, {"id": "Q44", "num": 44, "q": "We ___ forget our compass, or we may get lost in the forest.", "options": ["must", "have", "should to", "mustn't"], "answer": 3, "explain": "Không được phép quên la bàn → mustn't forget."}, {"id": "Q45", "num": 45, "q": "Phu Quoc is ___ largest island in Viet Nam.", "options": ["the", "a", "an", "some"], "answer": 0, "explain": "So sánh nhất luôn đi với the: the largest."}, {"id": "Q46", "num": 46, "q": "There ___ a big waterfall near the village.", "options": ["are", "is", "be", "am"], "answer": 1, "explain": "A big waterfall là danh từ số ít → There is."}, {"id": "Q47", "num": 47, "q": "We saw ___ eagle flying high over the valley.", "options": ["a", "the", "an", "some"], "answer": 2, "explain": "Eagle bắt đầu bằng nguyên âm /iː/ → dùng an."}, {"id": "Q48", "num": 48, "q": "There ___ many interesting caves on the island.", "options": ["is", "be", "isn't", "are"], "answer": 3, "explain": "Many caves là số nhiều → There are."}, {"id": "Q49", "num": 49, "q": "___ sun is very strong today, so wear a hat when you go out.", "options": ["The", "A", "An", "Some"], "answer": 0, "explain": "Mặt trời là duy nhất nên dùng The sun."}, {"id": "Q50", "num": 50, "q": "Ha Long Bay is in ___ north of Viet Nam.", "options": ["a", "an", "the", "some"], "answer": 2, "explain": "Cụm cố định chỉ phương hướng: in the north of..."}]}]}, {"key": "cloze", "title": "Cloze Passage", "icon": "✏️", "max": 10, "parts": [{"intro": "Read the passage and choose the best answer for each blank.", "passage": "Last summer, I visited Cat Ba Island for the first time. My family travelled there (1) ___ boat in about two hours. The scenery was wonderful: high green mountains, blue sea and white sandy beaches. On the first morning, a local (2) ___ took us to a famous cave on the island. It was dark inside, so we used a (3) ___ to see the rocks. Later, we went swimming at a quiet beach. My mother said, \"You (4) ___ put on suncream before going out. The sun is too strong.\" At lunch, we ate (5) ___ fresh seafood at a small restaurant near the sea. In the afternoon, we climbed a small mountain. From the top, we could see the whole (6) ___ below us, with tiny boats on the water. We also bought (7) ___ souvenirs for our friends at home. There weren't (8) ___ tourists that day, so the beach was peaceful. I didn't have (9) ___ money left in my bag, but I was very happy. The island is quite (10) ___ from my city, but I hope to return one day.", "qs": [{"id": "Q51", "num": 51, "q": "Blank (1)", "options": ["on", "by", "with", "in"], "answer": 1, "explain": "By + phương tiện: by boat = đi bằng thuyền."}, {"id": "Q52", "num": 52, "q": "Blank (2)", "options": ["visitor", "tourist", "sailor", "guide"], "answer": 3, "explain": "Người địa phương dẫn đoàn đi tham quan là guide (hướng dẫn viên)."}, {"id": "Q53", "num": 53, "q": "Blank (3)", "options": ["torch", "compass", "map", "backpack"], "answer": 0, "explain": "Trong hang tối cần torch (đèn pin) để nhìn thấy đá."}, {"id": "Q54", "num": 54, "q": "Blank (4)", "options": ["mustn't", "don't", "must", "aren't"], "answer": 2, "explain": "Lời nhắc việc cần làm để bảo vệ da → must put on suncream."}, {"id": "Q55", "num": 55, "q": "Blank (5)", "options": ["any", "some", "a few", "many"], "answer": 1, "explain": "Seafood không đếm được, câu khẳng định → some."}, {"id": "Q56", "num": 56, "q": "Blank (6)", "options": ["desert", "cave", "valley", "bay"], "answer": 3, "explain": "Từ trên núi nhìn xuống thấy vịnh (bay) với những chiếc thuyền nhỏ."}, {"id": "Q57", "num": 57, "q": "Blank (7)", "options": ["much", "a few", "a little", "any"], "answer": 1, "explain": "Souvenirs đếm được số nhiều, một vài món → a few."}, {"id": "Q58", "num": 58, "q": "Blank (8)", "options": ["much", "a little", "some", "many"], "answer": 3, "explain": "Tourists đếm được, câu phủ định → weren't many tourists."}, {"id": "Q59", "num": 59, "q": "Blank (9)", "options": ["much", "many", "a few", "some"], "answer": 0, "explain": "Money không đếm được, câu phủ định → didn't have much money."}, {"id": "Q60", "num": 60, "q": "Blank (10)", "options": ["deep", "wide", "far", "high"], "answer": 2, "explain": "Far from = xa; quite far from my city = khá xa thành phố của tôi."}]}]}, {"key": "read1", "title": "Reading 1: Phu Quoc Island", "icon": "📖", "max": 15, "parts": [{"intro": "Read the passage about Phu Quoc Island and choose the best answer.", "passage": "Phu Quoc is the largest island in Viet Nam. It is in the Gulf of Thailand, in the Kien Giang – An Giang region, about 45 kilometres from the mainland. Every year, millions of tourists visit Phu Quoc because of its long white beaches, clear blue water, peaceful fishing villages and green pepper gardens.\n\nSao Beach, in the south of the island, is famous for its white sand and calm sea. It is a perfect place for swimming and taking photos. In the evening, visitors can go to the Phu Quoc Night Market in Duong Dong Town. There, they can enjoy fresh seafood and buy souvenirs such as fish sauce and pearls. Phu Quoc fish sauce is well known all over Viet Nam, and its pearl farms produce beautiful pearls that many tourists love.\n\nOne of the most exciting experiences on the island is the cable car ride to Hon Thom Island. At nearly 8 kilometres long, it is one of the longest sea-crossing cable cars in the world. From the cable car, passengers can enjoy amazing views of the sea and small islands below.\n\nThe best time to visit Phu Quoc is from November to March, when the weather is dry and sunny. Visitors should bring suncream, a hat and light clothes. They should also try the island's fresh seafood and buy some famous fish sauce as a gift for their family. With its natural beauty and friendly people, Phu Quoc truly deserves the name 'Pearl Island'.", "qs": [{"id": "Q61", "num": 61, "q": "Phu Quoc is ___.", "options": ["the largest island in Viet Nam", "the smallest island in Viet Nam", "an island in Ha Long Bay", "a province in the north of Viet Nam"], "answer": 0, "explain": "Đoạn 1 nói rõ: Phu Quoc is the largest island in Viet Nam."}, {"id": "Q62", "num": 62, "q": "Sao Beach is famous for ___.", "options": ["its fish sauce", "its white sand and calm sea", "its pearl farms", "its night market"], "answer": 1, "explain": "Đoạn 2: Sao Beach nổi tiếng với cát trắng và biển lặng."}, {"id": "Q63", "num": 63, "q": "At the Phu Quoc Night Market, visitors can ___.", "options": ["ride a cable car", "visit a pearl farm", "climb a high mountain", "enjoy fresh seafood and buy souvenirs"], "answer": 3, "explain": "Ở chợ đêm, du khách ăn hải sản tươi và mua quà lưu niệm."}, {"id": "Q64", "num": 64, "q": "The word 'produce' in paragraph 2 is closest in meaning to ___.", "options": ["make", "sell", "buy", "eat"], "answer": 0, "explain": "Produce = sản xuất, làm ra (ngọc trai)."}, {"id": "Q65", "num": 65, "q": "The cable car to Hon Thom is special because ___.", "options": ["it is very cheap", "it is one of the longest sea-crossing cable cars in the world", "it travels under the sea", "it is the oldest cable car in Viet Nam"], "answer": 1, "explain": "Đoạn 3: đây là một trong những cáp treo vượt biển dài nhất thế giới."}, {"id": "Q66", "num": 66, "q": "The best time to visit Phu Quoc is ___.", "options": ["from June to August", "in September only", "in the rainy season", "from November to March"], "answer": 3, "explain": "Đoạn cuối: thời gian đẹp nhất là từ tháng 11 đến tháng 3."}, {"id": "Q67", "num": 67, "q": "In 'It is a perfect place for swimming and taking photos', the word 'It' refers to ___.", "options": ["Phu Quoc Island", "the Gulf of Thailand", "Sao Beach", "Duong Dong Town"], "answer": 2, "explain": "'It' thay cho Sao Beach ở câu ngay trước đó."}, {"id": "Q68", "num": 68, "q": "Visitors to Phu Quoc should bring ___.", "options": ["suncream, a hat and light clothes", "warm coats and boots", "a tent and sleeping bags only", "books and maps only"], "answer": 0, "explain": "Đoạn cuối khuyên mang kem chống nắng, mũ và quần áo mỏng."}, {"id": "Q69", "num": 69, "q": "Which of the following is NOT true about Phu Quoc?", "options": ["Its fish sauce is well known in Viet Nam.", "The island is in the north of Viet Nam.", "Sao Beach is in the south of the island.", "The night market is in Duong Dong Town."], "answer": 1, "explain": "Phú Quốc ở vịnh Thái Lan, phía nam — không phải phía bắc."}, {"id": "Q70", "num": 70, "q": "What is the passage mainly about?", "options": ["How to make fish sauce", "The history of Kien Giang", "Fishing villages in Viet Nam", "A famous island in Viet Nam and its attractions"], "answer": 3, "explain": "Bài viết giới thiệu đảo Phú Quốc và các điểm hấp dẫn của đảo."}, {"id": "Q71", "num": 71, "q": "We can infer from the passage that the writer ___ Phu Quoc.", "options": ["has never heard of", "dislikes", "thinks highly of", "is afraid of"], "answer": 2, "explain": "Tác giả khen Phú Quốc xứng danh 'Đảo Ngọc' → đánh giá cao hòn đảo."}, {"id": "Q72", "num": 72, "q": "From the cable car, passengers can see ___.", "options": ["the sea and small islands below", "the whole country of Viet Nam", "fish sauce factories", "the night market"], "answer": 0, "explain": "Đoạn 3: từ cáp treo nhìn thấy biển và các đảo nhỏ bên dưới."}, {"id": "Q73", "num": 73, "q": "The word 'peaceful' in paragraph 1 is closest in meaning to ___.", "options": ["crowded and noisy", "quiet and calm", "busy and exciting", "dark and dangerous"], "answer": 1, "explain": "Peaceful = yên bình, tĩnh lặng (quiet and calm)."}, {"id": "Q74", "num": 74, "q": "Phu Quoc is also called ___.", "options": ["'The Green Island'", "'The Rocky Island'", "'The Sandy Island'", "'Pearl Island'"], "answer": 3, "explain": "Câu cuối bài: Phu Quoc xứng với tên gọi 'Pearl Island' (Đảo Ngọc)."}, {"id": "Q75", "num": 75, "q": "How long is the cable car to Hon Thom Island?", "options": ["About 45 kilometres", "About 2 kilometres", "Nearly 8 kilometres", "Nearly 20 kilometres"], "answer": 2, "explain": "Đoạn 3: cáp treo dài gần 8 km (nearly 8 kilometres)."}]}]}, {"key": "read2", "title": "Reading 2: The Mekong Delta", "icon": "📖", "max": 15, "parts": [{"intro": "Read the passage about the Mekong Delta and choose the best answer.", "passage": "The Mekong Delta is a large region in the south of Viet Nam where the Mekong River flows into the sea. People often call it the 'rice bowl' of Viet Nam because farmers there grow about half of the country's rice. The region is also famous for its rivers, canals, fruit gardens and floating markets. The land is flat, and the rice fields are green all year round.\n\nLife in the Mekong Delta is closely connected to the water. Many people travel by boat, and some families live in houses along the canals. Every morning, hundreds of boats gather at floating markets such as Cai Rang in Can Tho. Farmers sell fruit, vegetables and rice from their boats. Each boat hangs its products on a tall pole so that buyers can see what it sells from far away.\n\nThe Mekong Delta is also a great place for food lovers. Visitors can pick fresh fruit in the gardens, drink coconut water and try local dishes like hu tieu and grilled fish. In the rainy season, the water rises and brings fish and rich soil to the fields. Many visitors also take a boat trip along the quiet canals in the early morning to enjoy the fresh air.\n\nWith its friendly people, green fields and busy river life, the Mekong Delta offers visitors a different Viet Nam — slow, warm and full of life.", "qs": [{"id": "Q76", "num": 76, "q": "What is the passage mainly about?", "options": ["How to grow rice in Viet Nam", "The life of farmers in Can Tho only", "Famous food in the south", "Life and attractions in the Mekong Delta"], "answer": 3, "explain": "Bài viết giới thiệu cuộc sống và các điểm hấp dẫn của đồng bằng sông Cửu Long."}, {"id": "Q77", "num": 77, "q": "People call the Mekong Delta the 'rice bowl' of Viet Nam because ___.", "options": ["farmers there grow about half of the country's rice", "the region looks like a big bowl", "people there eat rice three times a day", "it sells rice to many other countries"], "answer": 0, "explain": "Đoạn 1: nông dân nơi đây trồng khoảng một nửa lượng gạo của cả nước."}, {"id": "Q78", "num": 78, "q": "At floating markets, farmers sell their products ___.", "options": ["in big supermarkets", "at the night market", "from their boats", "in fruit gardens"], "answer": 2, "explain": "Đoạn 2: nông dân bán hàng ngay trên thuyền của mình."}, {"id": "Q79", "num": 79, "q": "Why does each boat hang its products on a tall pole?", "options": ["To make the boat look beautiful", "So buyers can see what it sells from far away", "To dry the fruit in the sun", "To help the boat move faster"], "answer": 1, "explain": "Treo sản phẩm lên cây sào cao để người mua nhìn thấy từ xa."}, {"id": "Q80", "num": 80, "q": "Cai Rang is ___.", "options": ["a famous fruit garden", "a popular local dish", "a kind of boat", "a floating market in Can Tho"], "answer": 3, "explain": "Cái Răng là chợ nổi nổi tiếng ở Cần Thơ."}, {"id": "Q81", "num": 81, "q": "In 'buyers can see what it sells from far away', the word 'it' refers to ___.", "options": ["the market", "the tall pole", "each boat", "the fruit"], "answer": 2, "explain": "'It' thay cho each boat (mỗi chiếc thuyền) ở đầu câu."}, {"id": "Q82", "num": 82, "q": "In the rainy season, the rising water brings ___.", "options": ["fish and rich soil to the fields", "many tourists to the region", "new boats to the markets", "dry weather to the gardens"], "answer": 0, "explain": "Đoạn 3: nước dâng mang cá và phù sa (đất màu mỡ) vào đồng ruộng."}, {"id": "Q83", "num": 83, "q": "The word 'gather' in paragraph 2 is closest in meaning to ___.", "options": ["sell", "travel", "leave", "come together"], "answer": 3, "explain": "Gather = tụ họp, tập trung lại (come together)."}, {"id": "Q84", "num": 84, "q": "Visitors in the Mekong Delta can ___.", "options": ["ski on the wide rivers", "pick fresh fruit in the gardens", "climb high mountains", "visit pearl farms"], "answer": 1, "explain": "Đoạn 3: du khách có thể hái trái cây tươi trong vườn."}, {"id": "Q85", "num": 85, "q": "Which of the following is NOT true about the Mekong Delta?", "options": ["Many people travel by boat.", "Some families live in houses along the canals.", "The region is in the north of Viet Nam.", "Farmers sell fruit and vegetables at floating markets."], "answer": 2, "explain": "Đồng bằng sông Cửu Long ở miền Nam Việt Nam, không phải miền Bắc."}, {"id": "Q86", "num": 86, "q": "The local dishes mentioned in the passage include ___.", "options": ["pho and banh mi", "pizza and pasta", "sushi and ramen", "hu tieu and grilled fish"], "answer": 3, "explain": "Bài đọc nhắc tới hủ tiếu (hu tieu) và cá nướng (grilled fish)."}, {"id": "Q87", "num": 87, "q": "The writer describes the Mekong Delta as ___.", "options": ["slow, warm and full of life", "crowded and noisy", "cold and quiet", "modern and busy"], "answer": 0, "explain": "Câu cuối bài: 'slow, warm and full of life'."}, {"id": "Q88", "num": 88, "q": "The word 'offers' in the last paragraph is closest in meaning to ___.", "options": ["sells", "gives", "hides", "refuses"], "answer": 1, "explain": "Offer ở đây nghĩa là mang lại, đem đến (gives) cho du khách."}, {"id": "Q89", "num": 89, "q": "Life in the Mekong Delta is closely connected to ___.", "options": ["the mountains", "the deserts", "the water", "the forests"], "answer": 2, "explain": "Đoạn 2 mở đầu: Life ... is closely connected to the water."}, {"id": "Q90", "num": 90, "q": "The floating markets are busiest ___.", "options": ["at night", "at noon", "in the evening", "in the morning"], "answer": 3, "explain": "Bài đọc nói: Every morning, hundreds of boats gather at floating markets."}]}]}, {"key": "arr", "title": "Sentence Building", "icon": "🔤", "max": 10, "parts": [{"intro": "Choose the sentence with the correct word order.", "passage": "", "qs": [{"id": "Q91", "num": 91, "q": "Choose the correct sentence. (you / must / wear / a life jacket / on the boat)", "options": ["You must wear a life jacket on the boat.", "You must wears a life jacket on the boat.", "You wear must a life jacket on the boat.", "A life jacket you must wear on the boat the."], "answer": 0, "explain": "Must + động từ nguyên thể: You must wear a life jacket on the boat."}, {"id": "Q92", "num": 92, "q": "Choose the correct sentence. (there / are / many / islands / in the bay)", "options": ["Are there many islands in the bay there.", "There are many islands in the bay.", "Many islands there are in the bay.", "There is many islands in the bay."], "answer": 1, "explain": "There are + danh từ số nhiều: There are many islands in the bay."}, {"id": "Q93", "num": 93, "q": "Choose the correct sentence. (we / need / some / water / for / the trip)", "options": ["We need water some for the trip.", "Some water we need for the trip the.", "We need some water for the trip.", "We needs some water for the trip."], "answer": 2, "explain": "Some + danh từ không đếm được trong câu khẳng định: We need some water for the trip."}, {"id": "Q94", "num": 94, "q": "Choose the correct sentence. (visitors / mustn't / throw / rubbish / into the sea)", "options": ["Visitors mustn't throw rubbish into the sea.", "Visitors mustn't throws rubbish into the sea.", "Visitors throw mustn't rubbish into the sea.", "Mustn't visitors throw rubbish into the sea visitors."], "answer": 0, "explain": "Mustn't + động từ nguyên thể (throw): Visitors mustn't throw rubbish into the sea."}, {"id": "Q95", "num": 95, "q": "Choose the correct sentence. (how / much / money / do / you / need)", "options": ["How money much do you need?", "How much money do you need?", "How much do money you need?", "Much money how do you need?"], "answer": 1, "explain": "How much + danh từ không đếm được (money) + do you need?"}, {"id": "Q96", "num": 96, "q": "Choose the correct sentence. (the / island / is / famous / for / its / beaches)", "options": ["The island famous is for its beaches.", "Its beaches the island is famous for.", "The island is famous for its beaches.", "The island is famous its beaches for."], "answer": 2, "explain": "Cụm cố định be famous for: The island is famous for its beaches."}, {"id": "Q97", "num": 97, "q": "Choose the correct sentence. (don't / forget / to bring / a / torch)", "options": ["Don't forget to bring a torch.", "Forget don't to bring a torch.", "Don't forget bring to a torch.", "To bring a torch don't forget a."], "answer": 0, "explain": "Don't forget to + động từ: Don't forget to bring a torch."}, {"id": "Q98", "num": 98, "q": "Choose the correct sentence. (there / is / a / waterfall / near / the village)", "options": ["There are a waterfall near the village.", "There is a waterfall near the village.", "A waterfall there is near the village the.", "There is waterfall a near the village."], "answer": 1, "explain": "There is + a + danh từ số ít: There is a waterfall near the village."}, {"id": "Q99", "num": 99, "q": "Choose the correct sentence. (she / has / a few / friends / on the island)", "options": ["She has few a friends on the island.", "A few friends she has on island the.", "She has a few friends on the island.", "She have a few friends on the island."], "answer": 2, "explain": "A few + danh từ đếm được số nhiều (friends); chủ ngữ she đi với has."}, {"id": "Q100", "num": 100, "q": "Choose the correct sentence. (we / are going to / visit / Ha Long Bay / next summer)", "options": ["We visit are going to Ha Long Bay next summer.", "Are going to we visit Ha Long Bay next summer.", "We are going visit to Ha Long Bay next summer.", "We are going to visit Ha Long Bay next summer."], "answer": 3, "explain": "Be going to + động từ nguyên thể diễn tả kế hoạch: We are going to visit Ha Long Bay next summer."}]}]}], "speaking": {"title": "Speaking Challenge: Plan an island trip", "task": "Work in pairs. Plan a trip to an island in Viet Nam and talk about your plan for about one minute. Say where you will go, how you will get there, what you will do, and what you must bring.", "prompts": ["Which island in Viet Nam would you like to visit? Why?", "How will you get there, and who will you go with?", "What will you do on the island in the morning and in the afternoon?", "What must you bring for the trip? What mustn't you forget?", "What food will you try there?"], "useful": ["I would love to visit ... because ...", "We can get there by ...", "In the morning, we will ...", "In the afternoon, we are going to ...", "I must bring ... and ...", "I mustn't forget my ...", "I think it will be a fantastic trip!"], "model": "I would love to visit Phu Quoc Island with my family next summer. We can fly to the island and stay in a small hotel near Sao Beach. In the morning, we will swim in the clear blue sea and take photos of the beautiful scenery. In the afternoon, we are going to take the cable car to Hon Thom Island and visit a pearl farm. In the evening, we will walk around the night market and eat fresh seafood. Before the trip, I must pack suncream, a hat, a swimsuit and a camera. I think it will be a fantastic trip!"}, "writing": {"title": "Writing Challenge: My dream island trip", "task": "Write a paragraph of 100-120 words about your dream trip to an island in Viet Nam: where, how to get there, what to do, what to bring...", "useful": ["My dream trip is to ...", "I will go there by ... with ...", "In the morning, we will ...", "In the afternoon, we are going to ...", "I must bring ...", "I mustn't forget ... because ...", "I hope my dream will come true soon."], "model": "My dream trip is to Cat Ba Island, the largest island in Hai Phong. I will go there by bus and ferry with my best friends next summer. The island has everything I love: green mountains, quiet beaches and a famous cave. In the morning, we will swim and collect shells on the beach. In the afternoon, we are going to visit Trung Trang Cave and take photos of the amazing scenery. I must bring a backpack, suncream, a torch and a swimsuit. I mustn't forget my camera because I want to keep every moment of this fantastic trip. I hope my dream will come true soon."}};
+var state = {};
+var checkedCount = 0, score = 0;
+var ALLQ = [];
+DATA.sections.forEach(function(s){ s.parts.forEach(function(p){ p.qs.forEach(function(q){ q.sec = s.key; ALLQ.push(q); }); }); });
+
+function speak(text){
+  try{
+    var u = new SpeechSynthesisUtterance(text);
+    u.lang = 'en-GB'; u.rate = 0.92;
+    var vs = speechSynthesis.getVoices().filter(function(v){return v.lang && v.lang.indexOf('en-GB')===0;});
+    if(vs.length) u.voice = vs[0];
+    speechSynthesis.cancel(); speechSynthesis.speak(u);
+  }catch(e){}
+}
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function renderFlashcards(){
+  var h = '';
+  DATA.flashcards.forEach(function(c,ci){
+    h += '<div class="fc" onclick="this.classList.toggle(\'flipped\')"><div class="fc-inner">'
+      + '<div class="fc-face fc-front"><div class="em">'+c.emoji+'</div><div class="hint">UNIT 4 · TAP TO FLIP 👆</div></div>'
+      + '<div class="fc-face fc-back"><div class="w">'+esc(c.word)+'</div><div class="ipa">'+esc(c.ipa)+'</div><div class="vn">'+esc(c.vn)+'</div><div class="ex">“'+esc(c.ex)+'”</div>'
+      + '<button class="speak" data-i="' + ci + '">🔊 Listen</button></div>'
+      + '</div></div>';
+  });
+  document.getElementById('fcGrid').innerHTML = h;
+}
+document.addEventListener('click', function(e){
+  var b = (e.target && e.target.closest) ? e.target.closest('.speak') : null;
+  if(b){ e.stopPropagation(); speak(DATA.flashcards[+b.getAttribute('data-i')].word); }
+});
+function renderSections(){
+  var h = '';
+  DATA.sections.forEach(function(s){
+    h += '<div class="mission-head"><div class="ic">'+s.icon+'</div><div><h2>'+s.title+'</h2><p>'+s.max+' câu</p></div></div>';
+    s.parts.forEach(function(p){
+      if(p.intro) h += '<p class="part-intro">'+esc(p.intro)+'</p>';
+      if(p.passage) h += '<div class="passage">'+p.passage+'</div>';
+      p.qs.forEach(function(q){
+        h += '<div class="card"><div class="q">Question '+q.num+'. '+q.q+'</div>';
+        h += '<div class="opts">';
+        q.options.forEach(function(op,i){
+          h += '<label id="lab_'+q.id+'_'+i+'"><input type="radio" name="'+q.id+'" value="'+i+'"> '+'ABCD'[i]+'. '+esc(op)+'</label>';
+        });
+        h += '</div>';
+        h += '<button class="btn small blue" onclick="checkQ(\''+q.id+'\')">Check ✓</button>'
+           + '<div class="feedback" id="fb_'+q.id+'"></div>'
+           + '<div class="explain" id="ex_'+q.id+'">💡 '+esc(q.explain)+'</div></div>';
+      });
+    });
+  });
+  document.getElementById('sections').innerHTML = h;
+}
+function checkQ(id){
+  var q = ALLQ.find(function(x){return x.id===id;});
+  var fb = document.getElementById('fb_'+id);
+  var sel = document.querySelector('input[name="'+id+'"]:checked');
+  if(!sel){ fb.className='feedback no'; fb.textContent='Bạn chọn một đáp án trước đã nhé! 🙂'; return; }
+  var chosen = parseInt(sel.value);
+  var isRight = chosen === q.answer;
+  var wasChecked = state[id] && state[id].checked;
+  q.options.forEach(function(_,i){
+    var lab = document.getElementById('lab_'+id+'_'+i);
+    lab.classList.remove('correct','wrong');
+    if(i===q.answer) lab.classList.add('correct');
+    else if(i===chosen) lab.classList.add('wrong');
+  });
+  if(!wasChecked){ checkedCount++; if(isRight) score++; }
+  else if(state[id].right && !isRight){ score--; }
+  else if(!state[id].right && isRight){ score++; }
+  state[id] = { chosen: chosen, checked: true, right: isRight };
+  fb.className = 'feedback ' + (isRight ? 'ok' : 'no');
+  fb.textContent = isRight ? '✓ Đúng rồi! Giỏi lắm! 🎉' : '✗ Chưa đúng — đáp án đúng đã được tô xanh, đọc giải thích bên dưới nhé.';
+  document.getElementById('ex_'+id).style.display = 'block';
+  document.getElementById('progressLine').textContent = 'Đã kiểm tra: ' + checkedCount + ' / 100 câu 🌏';
+  if(checkedCount === ALLQ.length) showReport();
+}
+function makeCode(){
+  var s = '';
+  ALLQ.forEach(function(q){
+    var st = state[q.id];
+    if(!st || !st.checked) s += '-';
+    else s += st.chosen;
+  });
+  return 'KQU5C-' + s;
+}
+function showReport(){
+  var name = document.getElementById('studentName').value.trim() || 'Kiến Quốc';
+  document.getElementById('reportName').textContent = 'Học sinh: ' + name + ' 🌏';
+  document.getElementById('reportScore').textContent = score + ' / 100';
+  var per = '';
+  DATA.sections.forEach(function(s){
+    var sc = 0, tot = 0;
+    s.parts.forEach(function(p){ p.qs.forEach(function(q){ tot++; if(state[q.id] && state[q.id].right) sc++; }); });
+    per += '<span>'+(s.title.indexOf('·')>=0 ? s.title.split('·')[1].trim() : s.title)+': '+sc+'/'+tot+'</span>';
+  });
+  document.getElementById('reportPer').innerHTML = per;
+  document.getElementById('reportMsg').textContent =
+    score>=90 ? 'Xuất sắc! Bạn đã sẵn sàng chinh phục đề thi tốt nghiệp rồi! 🏆🌏' :
+    score>=75 ? 'Rất tốt! Bạn nắm chắc phần lớn kiến thức Unit 5. Xem lại vài câu sai là hoàn hảo! 💪' :
+    score>=50 ? 'Khá tốt! Đọc lại giải thích các câu sai, ôn flashcards thêm một lượt rồi làm lại nhé! 🌈' :
+                 'Đừng nản nhé! Ôn lại từ vựng và ngữ pháp Unit 5, rồi thử sức lại — bạn sẽ tiến bộ rõ rệt! 🚀';
+  document.getElementById('reportCode').textContent = makeCode();
+  document.getElementById('report').style.display = 'block';
+  document.getElementById('report').scrollIntoView({behavior:'smooth'});
+}
+function startGame(){
+  var name = document.getElementById('studentName').value.trim();
+  if(!name){ alert('Bạn nhập họ tên trước khi bắt đầu nhé!'); return; }
+  document.getElementById('startCard').style.display = 'none';
+  document.getElementById('mainArea').style.display = 'block';
+  window.scrollTo(0,0);
+}
+function restoreGame(){
+  var code = document.getElementById('restoreCode').value.trim().toUpperCase();
+  if(code.indexOf('KQU5C-') !== 0){ alert('Mã khôi phục chưa đúng — mã bắt đầu bằng KQU5C- nhé!'); return; }
+  var digits = code.substring(6);
+  if(digits.length < ALLQ.length){ alert('Mã khôi phục chưa đủ dài, bạn kiểm tra lại nhé!'); return; }
+  if(!document.getElementById('studentName').value.trim()) document.getElementById('studentName').value = 'Kiến Quốc';
+  startGame();
+  ALLQ.forEach(function(q, i){
+    var ch = digits[i];
+    if(ch === '-') return;
+    var v = parseInt(ch);
+    if(isNaN(v)) return;
+    var inp = document.querySelector('input[name="'+q.id+'"][value="'+v+'"]');
+    if(inp){ inp.checked = true; checkQ(q.id); }
+  });
+}
+
+function renderChallenges(){
+  var h = '';
+  if(DATA.speaking){
+    var sp = DATA.speaking;
+    h += '<div class="card gold"><h2>\u{1F5E3}\u{FE0F} ' + esc(sp.title) + '</h2>'
+      + '<p class="sub">' + esc(sp.task) + '</p>'
+      + '<p style="font-weight:800;margin:10px 0 4px">Answer these questions:</p><ol style="margin:0 0 8px 22px;line-height:1.6">'
+      + sp.prompts.map(function(p){ return '<li>' + esc(p) + '</li>'; }).join('') + '</ol>'
+      + '<p style="font-weight:800;margin:10px 0 4px">Useful language:</p><div class="per">'
+      + sp.useful.map(function(u){ return '<span>' + esc(u) + '</span>'; }).join('') + '</div>'
+      + '<button class="btn small blue" onclick="var x=document.getElementById(\'spModel\');x.style.display=(x.style.display===\'block\'?\'none\':\'block\');this.textContent=(x.style.display===\'block\'?\'Hide model\':\'Show model\');">Show model</button>'
+      + '<div id="spModel" style="display:none;background:#EFF6FF;border:2px solid #BFDBFE;border-radius:12px;padding:14px 16px;margin-top:10px;line-height:1.65">' + esc(sp.model) + '</div>'
+      + '<p class="small">Ph\u1EA7n n\u00E0y kh\u00F4ng t\u00EDnh \u0111i\u1EC3m \u2014 luy\u1EC7n n\u00F3i th\u00E0nh ti\u1EBFng r\u1ED3i nh\u1EDD c\u00F4 ch\u1EA5m nh\u00E9! \u{1F399}\u{FE0F}</p></div>';
+  }
+  if(DATA.writing){
+    var wr = DATA.writing;
+    h += '<div class="card gold"><h2>\u{270D}\u{FE0F} ' + esc(wr.title) + '</h2>'
+      + '<p class="sub">' + esc(wr.task) + '</p>'
+      + '<p style="font-weight:800;margin:10px 0 4px">Useful language:</p><div class="per">'
+      + wr.useful.map(function(u){ return '<span>' + esc(u) + '</span>'; }).join('') + '</div>'
+      + '<button class="btn small blue" onclick="var x=document.getElementById(\'wrModel\');x.style.display=(x.style.display===\'block\'?\'none\':\'block\');this.textContent=(x.style.display===\'block\'?\'Hide model\':\'Show model\');">Show model</button>'
+      + '<div id="wrModel" style="display:none;background:#EFF6FF;border:2px solid #BFDBFE;border-radius:12px;padding:14px 16px;margin-top:10px;line-height:1.65">' + esc(wr.model) + '</div>'
+      + '<p class="small">Ph\u1EA7n n\u00E0y kh\u00F4ng t\u00EDnh \u0111i\u1EC3m \u2014 vi\u1EBFt v\u00E0o v\u1EDF r\u1ED3i ch\u1EE5p g\u1EEDi c\u00F4 ch\u1EA5m nh\u00E9! \u{1F4F8}</p></div>';
+  }
+  document.getElementById('challenges').innerHTML = h;
+}
+renderFlashcards();
+renderSections();
+renderChallenges();
+</script>
+</body>
+</html>

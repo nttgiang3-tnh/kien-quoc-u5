@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wonder Explorer — Unit 5 Natural Wonders — Game cho Kiến Quốc</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Nunito',sans-serif;background:linear-gradient(180deg,#FDFBF3 0%,#EFF6FF 55%,#FEF3C7 130%);color:#12263A;padding:22px 14px 70px;min-height:100vh}
+  .wrap{max-width:900px;margin:0 auto}
+  header{text-align:center;padding:30px 18px 24px;background:linear-gradient(135deg,#7F1D1D,#B91C1C 45%,#1D4ED8);color:#fff;border-radius:22px;box-shadow:0 14px 30px rgba(127,29,29,.30)}
+  header .badge{display:inline-block;background:#F59E0B;color:#451A03;font-weight:800;padding:5px 16px;border-radius:999px;font-size:13px;letter-spacing:1.2px}
+  header h1{font-family:'Baloo 2',cursive;font-size:clamp(25px,5.2vw,38px);margin:12px 0 6px;line-height:1.18}
+  header p{color:#FDE68A;font-size:16px}
+  .card{background:#fff;border-radius:18px;box-shadow:0 4px 10px rgba(18,38,58,.08),0 14px 30px rgba(18,38,58,.10);padding:22px;margin-top:18px;border-top:6px solid #1D4ED8}
+  .card.gold{border-top-color:#F59E0B}
+  .card.red{border-top-color:#B91C1C}
+  h2{font-family:'Baloo 2',cursive;font-size:24px;color:#12263A;margin-bottom:6px}
+  .sub{color:#4E6A82;font-size:15.5px;line-height:1.5}
+  input[type=text]{width:100%;padding:13px 15px;font-size:17px;border:2px solid #CFE0DA;border-radius:12px;margin:8px 0 10px;font-family:inherit}
+  input[type=text]:focus{outline:none;border-color:#1D4ED8}
+  .btn{background:#12263A;color:#fff;border:none;padding:13px 30px;border-radius:999px;font-size:17px;font-weight:800;cursor:pointer;font-family:inherit;box-shadow:0 6px 14px rgba(18,38,58,.25)}
+  .btn:hover{background:#1D3A5F}
+  .btn.blue{background:#1D4ED8}.btn.blue:hover{background:#1E40AF}
+  .btn.gold{background:#F59E0B;color:#451A03}.btn.gold:hover{background:#D97706}
+  .btn.small{padding:9px 22px;font-size:15px}
+  .fc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;margin-top:14px}
+  .fc{perspective:700px;height:172px;cursor:pointer}
+  .fc-inner{position:relative;width:100%;height:100%;transition:transform .55s;transform-style:preserve-3d}
+  .fc.flipped .fc-inner{transform:rotateY(180deg)}
+  .fc-face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12px;text-align:center;box-shadow:0 6px 16px rgba(18,38,58,.14)}
+  .fc-front{background:linear-gradient(160deg,#EFF6FF,#DBEAFE);border:2px dashed #1D4ED8}
+  .fc-front .em{font-size:52px}
+  .fc-front .hint{font-size:12.5px;color:#1D4ED8;font-weight:800;margin-top:6px;letter-spacing:.6px}
+  .fc-back{background:linear-gradient(160deg,#7F1D1D,#B91C1C);color:#fff;transform:rotateY(180deg)}
+  .fc-back .w{font-family:'Baloo 2',cursive;font-size:21px;color:#FDE68A}
+  .fc-back .ipa{font-size:14px;color:#FECACA}
+  .fc-back .vn{font-size:15px;font-weight:800;margin-top:3px}
+  .fc-back .ex{font-size:13px;color:#FEE2E2;margin-top:6px;line-height:1.4;font-style:italic}
+  .speak{margin-top:8px;background:#F59E0B;border:none;border-radius:999px;padding:5px 14px;font-weight:800;cursor:pointer;font-size:14px;color:#451A03}
+  .mission-head{display:flex;align-items:center;gap:12px;margin-top:34px}
+  .mission-head .ic{font-size:34px;background:#fff;border-radius:50%;width:58px;height:58px;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 14px rgba(18,38,58,.15)}
+  .mission-head h2{font-size:25px}
+  .mission-head p{color:#4E6A82;font-size:14.5px;font-weight:700}
+  .part-intro{font-size:16px;font-weight:700;color:#7F1D1D;margin:16px 2px 4px}
+  .q{font-size:17.5px;font-weight:700;line-height:1.5;margin-bottom:6px}
+  .passage{background:#FFFBEB;border-left:5px solid #F59E0B;border-radius:10px;padding:15px 17px;font-size:16.5px;line-height:1.65;margin:12px 0 4px;color:#173F57}
+  .opts label{display:block;padding:11px 15px;border:2px solid #E1E9E6;border-radius:12px;margin:8px 0;cursor:pointer;font-size:16.5px;transition:.15s;background:#FDFEFE;line-height:1.45}
+  .opts label:hover{border-color:#1D4ED8;background:#EFF6FF}
+  .opts input{margin-right:9px;transform:scale(1.2)}
+  .opts label.correct{border-color:#1E9E6A;background:#E7F7EF}
+  .opts label.wrong{border-color:#D64545;background:#FDECEC}
+  .explain{display:none;margin-top:12px;background:#EFF6FF;border:1px solid #BFDBFE;color:#1E40AF;border-radius:10px;padding:11px 14px;font-size:15.5px;line-height:1.55}
+  .feedback{font-weight:800;margin-top:9px;font-size:16px;min-height:20px}
+  .ok{color:#1E9E6A}.no{color:#D64545}
+  .progress{text-align:center;font-weight:800;color:#7F1D1D;margin-top:22px;font-size:17px}
+  #mainArea{display:none}
+  #report{display:none;text-align:center}
+  #report .score{font-family:'Baloo 2',cursive;font-size:52px;font-weight:800;color:#12263A}
+  .per{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:12px 0}
+  .per span{background:#EFF6FF;border:2px solid #BFDBFE;border-radius:999px;padding:6px 14px;font-weight:800;font-size:14.5px}
+  .code{font-family:ui-monospace,monospace;background:#12263A;color:#FDE68A;padding:10px 14px;border-radius:10px;font-size:13.5px;display:inline-block;margin-top:8px;word-break:break-all;max-width:100%}
+  .small{font-size:14px;color:#4E6A82;margin-top:10px;line-height:1.55}
+  footer{text-align:center;margin-top:34px;color:#7C2D12;font-weight:700;font-size:14.5px;line-height:1.6}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="badge">📗 GLOBAL SUCCESS 6 · UNIT 5: NATURAL WONDERS OF VIET NAM 📗</span>
+    <h1>WONDER EXPLORER — UNIT 5 NATURAL WONDERS</h1>
+    <p>Game riêng cho Kiến Quốc · 100 câu trắc nghiệm + thử thách Nói &amp; Viết · Trình độ B1+ · Thời gian gợi ý: 90 phút</p>
+  </header>
+
+  <div class="card" id="startCard">
+    <h2>🎯 Chào bạn!</h2>
+    <p class="sub">Nhập tên của bạn rồi bấm <b>Start</b>. Game gồm <b>100 câu</b>: <b>Từ vựng (20) · Ngữ pháp (30) · Điền khuyết (10) · Đọc hiểu 1 (15) · Đọc hiểu 2 (15) · Sắp xếp câu (10)</b>. Cuối game còn có <b>1 thử thách Nói</b> và <b>1 thử thách Viết</b> (không tính điểm, để luyện thêm). Mỗi câu có nút <b>Check</b> riêng kèm giải thích tiếng Việt — cứ bình tĩnh làm hết 100 câu nhé!</p>
+    <input type="text" id="studentName" placeholder="Nhập họ tên của bạn...">
+    <button class="btn blue" onclick="startGame()">🚀 Start — Bắt đầu!</button>
+    <p class="small">Có <b>mã khôi phục</b> từ lần làm trước? Dán mã vào ô dưới rồi bấm Restore để làm tiếp đúng chỗ cũ:<br>
+    <input type="text" id="restoreCode" placeholder="Recovery code (KQU5A-...)">
+    <button class="btn small gold" onclick="restoreGame()">Restore</button></p>
+  </div>
+
+  <div id="mainArea">
+    <div class="card gold">
+      <h2>🃏 Flashcards — Ôn từ vựng Unit 5 trước khi chơi</h2>
+      <p class="sub">Bấm vào từng thẻ để lật xem từ vựng. Bấm 🔊 để nghe phát âm giọng Anh-Anh.</p>
+      <div class="fc-grid" id="fcGrid"></div>
+    </div>
+
+    <div id="sections"></div>
+    <div id="challenges"></div>
+
+    <p class="progress" id="progressLine">Đã kiểm tra: 0 / 100 câu 🌏</p>
+
+    <div class="card gold" id="report">
+      <h2>🏆 PROGRESS REPORT — THẺ BÁO CÁO ĐIỂM</h2>
+      <p style="font-size:18px;margin-top:4px" id="reportName"></p>
+      <div class="score" id="reportScore"></div>
+      <div class="per" id="reportPer"></div>
+      <p id="reportMsg" style="font-size:16.5px;line-height:1.55"></p>
+      <p class="small">Chụp màn hình báo cáo này gửi cho cô giáo nhé! 📸<br>Mã khôi phục tiến độ (lần sau dán vào ô Restore ở màn hình đầu để làm tiếp):</p>
+      <div class="code" id="reportCode"></div>
+    </div>
+  </div>
+  <footer>✍️ Created by Mrs. Thanh Giang — Giáo viên tiếng Anh, Trường THPT Chuyên Thoại Ngọc Hầu, tỉnh An Giang</footer>
+</div>
+
+<script>
+var DATA = {"title": "Wonder Explorer — Unit 5 Natural Wonders", "flashcards": [{"emoji": "🏝️", "word": "island", "ipa": "/ˈaɪlənd/", "vn": "hòn đảo", "ex": "Ha Long Bay has about 1,600 islands."}, {"emoji": "🕳️", "word": "cave", "ipa": "/keɪv/", "vn": "hang động", "ex": "Sung Sot Cave is huge and beautiful."}, {"emoji": "🌊", "word": "waterfall", "ipa": "/ˈwɔːtəfɔːl/", "vn": "thác nước", "ex": "Ban Gioc is a famous waterfall in Cao Bang."}, {"emoji": "⛰️", "word": "mountain", "ipa": "/ˈmaʊntən/", "vn": "ngọn núi", "ex": "Fansipan is the highest mountain in Viet Nam."}, {"emoji": "🏖️", "word": "beach", "ipa": "/biːtʃ/", "vn": "bãi biển", "ex": "We played games on the beach all morning."}, {"emoji": "🏜️", "word": "desert", "ipa": "/ˈdezət/", "vn": "sa mạc", "ex": "There is very little water in the desert."}, {"emoji": "🌲", "word": "forest", "ipa": "/ˈfɒrɪst/", "vn": "khu rừng", "ex": "Many wild animals live in the forest."}, {"emoji": "🏞️", "word": "valley", "ipa": "/ˈvæli/", "vn": "thung lũng", "ex": "The green valley lies between two mountains."}, {"emoji": "🎒", "word": "backpack", "ipa": "/ˈbækpæk/", "vn": "ba lô", "ex": "He carried food and water in his backpack."}, {"emoji": "🧭", "word": "compass", "ipa": "/ˈkʌmpəs/", "vn": "la bàn", "ex": "A compass helps us find the way in the forest."}, {"emoji": "🧴", "word": "suncream", "ipa": "/ˈsʌn kriːm/", "vn": "kem chống nắng", "ex": "You must wear suncream on sunny days."}, {"emoji": "🌄", "word": "scenery", "ipa": "/ˈsiːnəri/", "vn": "phong cảnh", "ex": "The scenery in Ha Long Bay is amazing."}], "sections": [{"key": "vocab", "title": "Vocabulary in Context", "icon": "📚", "max": 20, "parts": [{"intro": "Choose the best answer to complete each sentence.", "passage": "", "qs": [{"id": "Q1", "num": 1, "q": "Ha Long Bay has more than 1,600 small ______ covered with green trees.", "options": ["islands", "deserts", "valleys", "waterfalls"], "answer": 0, "explain": "Islands là các hòn đảo. Vịnh Hạ Long có hơn 1.600 hòn đảo."}, {"id": "Q2", "num": 2, "q": "We walked through the dark ______ with torches to see the beautiful rocks inside.", "options": ["beach", "cave", "desert", "lake"], "answer": 1, "explain": "Cave là hang động — nơi tối, cần đèn pin (torches) để đi vào."}, {"id": "Q3", "num": 3, "q": "The water falls from a high mountain into the river below. It is a beautiful ______.", "options": ["valley", "forest", "waterfall", "bay"], "answer": 2, "explain": "Waterfall là thác nước — nước đổ từ trên cao xuống."}, {"id": "Q4", "num": 4, "q": "Visitors must wear a life jacket when they travel by ______ on the bay.", "options": ["compass", "backpack", "map", "boat"], "answer": 3, "explain": "Đi trên vịnh bằng thuyền (boat) thì phải mặc áo phao."}, {"id": "Q5", "num": 5, "q": "The ______ of Ha Long Bay at sunrise is amazing, with golden light on the water.", "options": ["scenery", "suncream", "traffic", "weather"], "answer": 0, "explain": "Scenery là phong cảnh. Cụm 'the scenery is amazing' rất hay dùng."}, {"id": "Q6", "num": 6, "q": "The Sahara is the largest hot ______ in the world.", "options": ["forest", "desert", "lake", "river"], "answer": 1, "explain": "Desert là sa mạc. Sahara là sa mạc nóng lớn nhất thế giới."}, {"id": "Q7", "num": 7, "q": "Our ______ told us interesting stories about Sung Sot Cave during the boat trip.", "options": ["visitor", "passenger", "guide", "driver"], "answer": 2, "explain": "Guide là hướng dẫn viên du lịch — người dẫn đường và kể chuyện cho khách."}, {"id": "Q8", "num": 8, "q": "Ba Be is the largest natural ______ in Viet Nam, surrounded by green mountains.", "options": ["island", "cave", "desert", "lake"], "answer": 3, "explain": "Lake là hồ nước tự nhiên. Ba Bể là hồ tự nhiên lớn nhất Việt Nam."}, {"id": "Q9", "num": 9, "q": "Fansipan is the highest ______ in Viet Nam, at 3,143 metres above sea level.", "options": ["mountain", "waterfall", "valley", "beach"], "answer": 0, "explain": "Mountain là núi. Fansipan là núi cao nhất Việt Nam."}, {"id": "Q10", "num": 10, "q": "The Mekong is the longest ______ in Southeast Asia.", "options": ["lake", "river", "bay", "rock"], "answer": 1, "explain": "River là sông. Sông Mekong là sông dài nhất Đông Nam Á."}, {"id": "Q11", "num": 11, "q": "You should pack some ______ to protect your skin from the strong sun.", "options": ["compass", "torch", "suncream", "backpack"], "answer": 2, "explain": "Suncream là kem chống nắng, dùng để bảo vệ da khỏi nắng."}, {"id": "Q12", "num": 12, "q": "The cave is very ______ — its underground river goes more than 50 metres below the ground.", "options": ["far", "popular", "wide", "deep"], "answer": 3, "explain": "Deep là sâu (chiều sâu). Hang sâu hơn 50 m dưới mặt đất."}, {"id": "Q13", "num": 13, "q": "Ha Long Bay is very ______ with tourists from all over the world.", "options": ["popular", "natural", "amazing", "fantastic"], "answer": 0, "explain": "Cụm cố định: be popular with somebody = được ai đó ưa chuộng."}, {"id": "Q14", "num": 14, "q": "The beach is quite ______ from here — about 20 kilometres away.", "options": ["deep", "far", "high", "wide"], "answer": 1, "explain": "Far nghĩa là xa về khoảng cách. 'Quite far from here' = khá xa nơi này."}, {"id": "Q15", "num": 15, "q": "We need a ______ at night because the cave is completely dark inside.", "options": ["compass", "suncream", "torch", "map"], "answer": 2, "explain": "Torch là đèn pin — vật cần thiết khi vào hang tối."}, {"id": "Q16", "num": 16, "q": "Da Lat is famous for its cool weather and green pine ______.", "options": ["deserts", "beaches", "bays", "forests"], "answer": 3, "explain": "Forest là rừng. Đà Lạt nổi tiếng với rừng thông xanh."}, {"id": "Q17", "num": 17, "q": "The children built tall castles with wet sand on the ______.", "options": ["beach", "cave", "valley", "rock"], "answer": 0, "explain": "Beach là bãi biển — nơi trẻ em xây lâu đài cát."}, {"id": "Q18", "num": 18, "q": "Mu Cang Chai is famous for its rice terraces in a green ______ between two mountains.", "options": ["island", "valley", "desert", "lake"], "answer": 1, "explain": "Valley là thung lũng — vùng đất thấp nằm giữa hai dãy núi."}, {"id": "Q19", "num": 19, "q": "The stones inside the cave are huge. Some ______ look like lions or dragons.", "options": ["boats", "guides", "rocks", "bays"], "answer": 2, "explain": "Rock là tảng đá. Các tảng đá trong hang có hình giống con vật."}, {"id": "Q20", "num": 20, "q": "We carried food, water and clothes for the camping trip in our ______.", "options": ["compasses", "torches", "maps", "backpacks"], "answer": 3, "explain": "Backpack là ba lô — dùng để đựng đồ khi đi cắm trại, du lịch."}]}]}, {"key": "grammar", "title": "Grammar: Countable / Uncountable & must / mustn't", "icon": "🧩", "max": 30, "parts": [{"intro": "Choose the best answer: countable / uncountable nouns, quantifiers, and must / mustn't.", "passage": "", "qs": [{"id": "Q21", "num": 21, "q": "How ______ islands are there in Ha Long Bay?", "options": ["many", "much", "a little", "a few"], "answer": 0, "explain": "Islands là danh từ đếm được số nhiều nên hỏi bằng 'How many'."}, {"id": "Q22", "num": 22, "q": "There isn't ______ suncream left in the tube.", "options": ["many", "any", "a few", "some"], "answer": 1, "explain": "Câu phủ định dùng 'any'. Suncream là danh từ không đếm được."}, {"id": "Q23", "num": 23, "q": "We need ______ water for the long walk across the desert.", "options": ["a few", "many", "a lot of", "any"], "answer": 2, "explain": "Water không đếm được; 'a lot of' dùng được với cả danh từ đếm được và không đếm được."}, {"id": "Q24", "num": 24, "q": "There are only ______ tourists in the cave today because it is raining.", "options": ["a little", "much", "any", "a few"], "answer": 3, "explain": "Tourists đếm được số nhiều, số lượng ít nên dùng 'a few'."}, {"id": "Q25", "num": 25, "q": "How ______ does a boat ticket to Tuan Chau Island cost?", "options": ["much", "many", "a few", "a lot of"], "answer": 0, "explain": "Hỏi giá tiền dùng 'How much ... cost?'."}, {"id": "Q26", "num": 26, "q": "The guide gave us ______ useful information about the bay.", "options": ["many", "some", "a few", "any"], "answer": 1, "explain": "Information không đếm được nên dùng 'some' trong câu khẳng định."}, {"id": "Q27", "num": 27, "q": "There is ______ sand on this beach, so children can play on it all day.", "options": ["a few", "many", "a lot of", "any"], "answer": 2, "explain": "Sand không đếm được; câu khẳng định diễn tả số lượng nhiều dùng 'a lot of'."}, {"id": "Q28", "num": 28, "q": "There is only ______ rice left in the bag, so we must buy more.", "options": ["many", "a few", "any", "a little"], "answer": 3, "explain": "Rice không đếm được, lượng ít nên dùng 'a little'."}, {"id": "Q29", "num": 29, "q": "Are there ______ caves on Cat Ba Island?", "options": ["any", "much", "a little", "some"], "answer": 0, "explain": "Câu hỏi với danh từ đếm được số nhiều dùng 'any'."}, {"id": "Q30", "num": 30, "q": "We saw ______ amazing rocks in Sung Sot Cave.", "options": ["a little", "some", "much", "any"], "answer": 1, "explain": "Rocks đếm được số nhiều; câu khẳng định dùng 'some'."}, {"id": "Q31", "num": 31, "q": "How ______ time do we have before the boat leaves?", "options": ["many", "a few", "much", "a lot of"], "answer": 2, "explain": "Time (thời gian) không đếm được nên dùng 'How much'."}, {"id": "Q32", "num": 32, "q": "The beach is very quiet because there aren't ______ people here today.", "options": ["much", "a little", "some", "many"], "answer": 3, "explain": "People đếm được số nhiều; câu phủ định dùng 'many'."}, {"id": "Q33", "num": 33, "q": "I packed ______ clothes for the three-day camping trip.", "options": ["a lot of", "much", "a little", "any"], "answer": 0, "explain": "Clothes đếm được số nhiều; 'a lot of' dùng được với cả hai loại danh từ."}, {"id": "Q34", "num": 34, "q": "There aren't ______ torches in the shop, so let's come back tomorrow.", "options": ["much", "many", "a little", "some"], "answer": 1, "explain": "Torches đếm được số nhiều; câu phủ định dùng 'many'."}, {"id": "Q35", "num": 35, "q": "Visitors ______ feed the monkeys in the national park. It's against the rules.", "options": ["must", "don't have to", "mustn't", "can"], "answer": 2, "explain": "Mustn't nghĩa là cấm, không được phép. Cho khỉ ăn là vi phạm quy định."}, {"id": "Q36", "num": 36, "q": "You ______ wear a life jacket on the boat. It's the rule for everyone.", "options": ["mustn't", "don't have to", "can't", "must"], "answer": 3, "explain": "Must nghĩa là bắt buộc phải làm theo quy định (mặc áo phao)."}, {"id": "Q37", "num": 37, "q": "We ______ be at the harbour at 7 a.m. The boat won't wait for us.", "options": ["must", "mustn't", "don't have to", "not must"], "answer": 0, "explain": "Must nghĩa là phải. Tàu không chờ nên bắt buộc phải đến đúng giờ."}, {"id": "Q38", "num": 38, "q": "You ______ take photos with flash in the cave because the light can damage the rocks.", "options": ["must", "mustn't", "have to", "can"], "answer": 1, "explain": "Mustn't nghĩa là cấm. Đèn flash có thể làm hại đá trong hang."}, {"id": "Q39", "num": 39, "q": "Students ______ listen to the guide carefully during the school trip.", "options": ["mustn't", "don't have to", "must", "not must"], "answer": 2, "explain": "Must nghĩa là phải (lắng nghe hướng dẫn viên cẩn thận)."}, {"id": "Q40", "num": 40, "q": "You ______ swim in this part of the lake. The water is very deep and dangerous.", "options": ["must", "have to", "can", "mustn't"], "answer": 3, "explain": "Mustn't nghĩa là cấm vì nguy hiểm."}, {"id": "Q41", "num": 41, "q": "We ______ keep the beach clean. Let's put all the rubbish in the bin.", "options": ["must", "mustn't", "don't have to", "not must"], "answer": 0, "explain": "Must nghĩa là phải (giữ bãi biển sạch)."}, {"id": "Q42", "num": 42, "q": "You ______ bring your own food. The tour price includes lunch for everyone.", "options": ["must", "don't have to", "mustn't", "can't"], "answer": 1, "explain": "Don't have to = không cần thiết (khác hẳn mustn't = cấm). Tour đã gồm bữa trưa."}, {"id": "Q43", "num": 43, "q": "Choose the correct sentence.", "options": ["You must to wear a hat.", "You mustn't to swim here.", "You must wear a sun hat.", "You don't must swim here."], "answer": 2, "explain": "Sau must / mustn't dùng động từ nguyên thể, không có 'to'."}, {"id": "Q44", "num": 44, "q": "The sign says 'NO LITTERING'. What does it mean?", "options": ["You can drop litter here.", "You don't have to drop litter.", "You may drop litter here.", "You mustn't drop litter here."], "answer": 3, "explain": "'No littering' nghĩa là cấm xả rác → You mustn't drop litter here."}, {"id": "Q45", "num": 45, "q": "There ______ a beautiful waterfall near our hotel.", "options": ["is", "are", "be", "were"], "answer": 0, "explain": "Danh từ số ít (a waterfall) đi với 'There is'."}, {"id": "Q46", "num": 46, "q": "Ha Long Bay is in ______ north of Viet Nam.", "options": ["a", "the", "an", "any"], "answer": 1, "explain": "Dùng 'the north' — mạo từ 'the' đi trước phương hướng."}, {"id": "Q47", "num": 47, "q": "______ sun is very strong today, so remember to wear suncream.", "options": ["A", "An", "The", "Any"], "answer": 2, "explain": "The sun là vật duy nhất nên dùng mạo từ 'the'."}, {"id": "Q48", "num": 48, "q": "There ______ many small islands in the bay.", "options": ["is", "be", "am", "are"], "answer": 3, "explain": "Danh từ số nhiều (islands) đi với 'There are'."}, {"id": "Q49", "num": 49, "q": "Fansipan is ______ highest mountain in Viet Nam.", "options": ["the", "a", "an", "any"], "answer": 0, "explain": "Tính từ so sánh nhất (highest) luôn đi với 'the'."}, {"id": "Q50", "num": 50, "q": "We took a boat to ______ island and visited a fishing village there.", "options": ["a", "an", "the", "any"], "answer": 1, "explain": "Nhắc tới lần đầu và bắt đầu bằng nguyên âm nên dùng 'an island'."}]}]}, {"key": "cloze", "title": "Cloze Passage", "icon": "✏️", "max": 10, "parts": [{"intro": "Read the passage and choose the best word for each blank.", "passage": "Last Saturday, my class (51) ______ on a school trip to Long Hai Beach. We left school very early and travelled there (52) ______ bus. The beach was wonderful, with soft white sand and clear blue water. First, our teacher told us the rules for the day. 'You (53) ______ swim too far from the beach,' she said, 'and you must (54) ______ a hat in the sun.' Then we played games on the sand and looked for shells near the rocks. There were (55) ______ beautiful shells of different shapes and colours. At noon, we had lunch in the shade of the trees. We ate (56) ______ bread and sandwiches and drank a lot of water because the weather was very hot. In the afternoon, we visited a small (57) ______ near the beach and talked to the fishermen. Before we went home, we cleaned the beach together. Visitors (58) ______ leave rubbish on the sand, so we put everything into big bags. It was a (59) ______ day, and we all want to (60) ______ this beach again soon.", "qs": [{"id": "Q51", "num": 51, "q": "Choose the best answer for blank (51).", "options": ["go", "goes", "went", "going"], "answer": 2, "explain": "Chuyến đi đã xảy ra (Last Saturday) nên dùng quá khứ đơn 'went'."}, {"id": "Q52", "num": 52, "q": "Choose the best answer for blank (52).", "options": ["on", "in", "at", "by"], "answer": 3, "explain": "Đi bằng phương tiện giao thông: by bus (by + phương tiện, không có 'the')."}, {"id": "Q53", "num": 53, "q": "Choose the best answer for blank (53).", "options": ["mustn't", "must", "can", "have"], "answer": 0, "explain": "Cô giáo cấm bơi quá xa bờ → mustn't (cấm)."}, {"id": "Q54", "num": 54, "q": "Choose the best answer for blank (54).", "options": ["wears", "wear", "wearing", "wore"], "answer": 1, "explain": "Sau must dùng động từ nguyên thể 'wear'."}, {"id": "Q55", "num": 55, "q": "Choose the best answer for blank (55).", "options": ["much", "a little", "many", "any"], "answer": 2, "explain": "Shells là danh từ đếm được số nhiều nên dùng 'many'."}, {"id": "Q56", "num": 56, "q": "Choose the best answer for blank (56).", "options": ["many", "a few", "any", "some"], "answer": 3, "explain": "Bread không đếm được; câu khẳng định dùng 'some'."}, {"id": "Q57", "num": 57, "q": "Choose the best answer for blank (57).", "options": ["fishing village", "waterfall", "desert", "valley"], "answer": 0, "explain": "Làng chài = fishing village — nơi có ngư dân (fishermen) sống và làm việc."}, {"id": "Q58", "num": 58, "q": "Choose the best answer for blank (58).", "options": ["must", "mustn't", "can", "should"], "answer": 1, "explain": "Cấm xả rác trên bãi biển → mustn't leave rubbish."}, {"id": "Q59", "num": 59, "q": "Choose the best answer for blank (59).", "options": ["natural", "far", "fantastic", "deep"], "answer": 2, "explain": "Fantastic = tuyệt vời, hợp nghĩa 'một ngày tuyệt vời'."}, {"id": "Q60", "num": 60, "q": "Choose the best answer for blank (60).", "options": ["visits", "visiting", "visited", "visit"], "answer": 3, "explain": "Sau 'want to' dùng động từ nguyên thể 'visit'."}]}]}, {"key": "read1", "title": "Reading 1: Ha Long Bay", "icon": "📖", "max": 15, "parts": [{"intro": "Read the passage about Ha Long Bay and choose the best answer to each question.", "passage": "Ha Long Bay is one of the most famous natural wonders of Viet Nam. It is in Quang Ninh Province, in the north of the country. The name 'Ha Long' means 'where the dragon goes down into the sea'. According to a legend, dragons came down from the sky to help the Vietnamese people and created the islands with their tails.\nThe bay has around 1,600 islands and islets. Most of them are made of limestone and are covered with green trees. The water is calm and emerald green, and the scenery is truly amazing. In 1994, UNESCO recognised Ha Long Bay as a World Heritage Site.\nMany tourists visit the bay every year. They usually travel by boat to enjoy the views and explore the islands. One of the most popular places is Sung Sot Cave on Bo Hon Island. 'Sung Sot' means 'surprising', and visitors are really surprised by the huge rooms and beautiful rock formations inside the cave. Another famous island is Tuan Chau, where tourists can swim, relax on the beach, or watch water puppet shows.\nVisitors can also stay overnight on a cruise boat, watch the sunrise over the bay, and taste fresh seafood. Many visitors also go kayaking between the islands or visit floating fishing villages to see how local people live on the water. Ha Long Bay is not only a symbol of Viet Nam's natural beauty but also a place that everyone should visit at least once in their life.", "qs": [{"id": "Q61", "num": 61, "q": "What is the passage mainly about?", "options": ["A famous natural wonder of Viet Nam", "How dragons created Viet Nam", "The history of Quang Ninh Province", "Water puppet shows in Viet Nam"], "answer": 0, "explain": "Toàn bài giới thiệu tổng quan về vịnh Hạ Long — một kì quan thiên nhiên nổi tiếng."}, {"id": "Q62", "num": 62, "q": "Where is Ha Long Bay?", "options": ["In the south of Viet Nam", "In Quang Ninh Province", "On Tuan Chau Island", "In a limestone cave"], "answer": 1, "explain": "Đoạn 1 ghi rõ: 'It is in Quang Ninh Province'."}, {"id": "Q63", "num": 63, "q": "The name 'Ha Long' means ______.", "options": ["the green sea", "the home of dragons", "where the dragon goes down into the sea", "the island of surprises"], "answer": 2, "explain": "Đoạn 1: 'Ha Long means where the dragon goes down into the sea'."}, {"id": "Q64", "num": 64, "q": "How many islands and islets are there in the bay?", "options": ["About 160", "About 600", "About 1,994", "Around 1,600"], "answer": 3, "explain": "Đoạn 2: 'The bay has around 1,600 islands and islets'."}, {"id": "Q65", "num": 65, "q": "Most of the islands in Ha Long Bay are made of ______.", "options": ["limestone", "sand", "wood", "ice"], "answer": 0, "explain": "Đoạn 2: 'Most of them are made of limestone' (đá vôi)."}, {"id": "Q66", "num": 66, "q": "When did UNESCO recognise Ha Long Bay as a World Heritage Site?", "options": ["In 1600", "In 1994", "In 2019", "In 1990"], "answer": 1, "explain": "Đoạn 2: 'In 1994, UNESCO recognised Ha Long Bay as a World Heritage Site'."}, {"id": "Q67", "num": 67, "q": "The word 'recognised' in paragraph 2 is closest in meaning to ______.", "options": ["visited", "created", "officially accepted", "discovered"], "answer": 2, "explain": "Recognise ở đây nghĩa là chính thức công nhận (officially accepted)."}, {"id": "Q68", "num": 68, "q": "Sung Sot Cave is on ______.", "options": ["Tuan Chau Island", "Cat Ba Island", "a cruise boat", "Bo Hon Island"], "answer": 3, "explain": "Đoạn 3: Hang Sửng Sốt nằm trên đảo Bồ Hòn (Bo Hon Island)."}, {"id": "Q69", "num": 69, "q": "'Sung Sot' means ______.", "options": ["surprising", "beautiful", "huge", "famous"], "answer": 0, "explain": "Đoạn 3: 'Sung Sot means surprising' (sửng sốt, ngạc nhiên)."}, {"id": "Q70", "num": 70, "q": "What can tourists do on Tuan Chau Island?", "options": ["Climb the highest mountain", "Swim and watch water puppet shows", "Explore a dark cave", "Visit a fishing museum"], "answer": 1, "explain": "Đoạn 3: ở Tuân Châu, du khách có thể bơi, thư giãn và xem múa rối nước."}, {"id": "Q71", "num": 71, "q": "The word 'them' in 'Most of them are made of limestone' refers to ______.", "options": ["tourists", "dragons", "the islands and islets", "the trees"], "answer": 2, "explain": "'Them' thay thế cho 'the islands and islets' ở câu ngay trước."}, {"id": "Q72", "num": 72, "q": "Which of the following is NOT true about Ha Long Bay?", "options": ["The water in the bay is emerald green.", "Tourists can stay overnight on a cruise boat.", "Visitors can taste fresh seafood there.", "The bay is in the south of Viet Nam."], "answer": 3, "explain": "Vịnh Hạ Long ở phía bắc Việt Nam, không phải phía nam → câu này sai."}, {"id": "Q73", "num": 73, "q": "Why are visitors surprised when they enter Sung Sot Cave?", "options": ["Because of its huge rooms and rock formations", "Because the cave is completely dark", "Because dragons live inside the cave", "Because the boat trip is very long"], "answer": 0, "explain": "Đoạn 3: du khách ngạc nhiên vì các phòng hang rộng lớn và hình đá đẹp."}, {"id": "Q74", "num": 74, "q": "According to the legend, the dragons ______.", "options": ["lived in the sea near the bay", "helped the Vietnamese people and created the islands", "built Sung Sot Cave long ago", "taught local people to catch fish"], "answer": 1, "explain": "Đoạn 1: rồng xuống giúp người Việt và dùng đuôi tạo ra các đảo."}, {"id": "Q75", "num": 75, "q": "The writer wrote this passage to ______.", "options": ["sell boat tickets to tourists", "tell a funny story about dragons", "introduce a natural wonder of Viet Nam", "teach people how to swim"], "answer": 2, "explain": "Mục đích của bài là giới thiệu một kì quan thiên nhiên của Việt Nam."}]}]}, {"key": "read2", "title": "Reading 2: Phong Nha Cave", "icon": "📖", "max": 15, "parts": [{"intro": "Read the passage about Phong Nha Cave and choose the best answer to each question.", "passage": "Phong Nha Cave is a spectacular natural wonder in Quang Binh Province, in central Viet Nam. It is part of Phong Nha-Ke Bang National Park, which UNESCO recognised as a World Heritage Site in 2003. The park is famous for its ancient limestone mountains, thick forests, and hundreds of caves.\nPhong Nha Cave is about 8 kilometres long, and a beautiful underground river flows through it. To visit the cave, tourists first take a boat trip of about 30 minutes along the Son River. The boat slowly enters the dark mouth of the cave, and visitors suddenly see a magical world of rocks in different shapes — like lions, Buddhas, and royal courts.\nInside the cave, the air is cool all year round, even on hot summer days. Lights along the paths help visitors admire the shining stalactites hanging from the ceiling. The cave has several large chambers, and some parts of its underground river are still unexplored. Local guides say that the cave is home to many bats, and their sounds echo through the dark chambers at night.\nNear Phong Nha, there is another world-famous cave called Son Doong. It is the largest cave on Earth — so big that it has its own jungle and river inside. However, Phong Nha is easier to visit, so it is a perfect choice for families and school groups who love adventure and nature.", "qs": [{"id": "Q76", "num": 76, "q": "Where is Phong Nha Cave?", "options": ["In Quang Ninh Province", "In Ha Long Bay", "In Son Doong Cave", "In Quang Binh Province"], "answer": 3, "explain": "Đoạn 1: Hang Phong Nha ở tỉnh Quảng Bình, miền Trung Việt Nam."}, {"id": "Q77", "num": 77, "q": "Phong Nha-Ke Bang National Park became a World Heritage Site in ______.", "options": ["2003", "1994", "2013", "2008"], "answer": 0, "explain": "Đoạn 1: UNESCO công nhận Vườn quốc gia Phong Nha – Kẻ Bàng vào năm 2003."}, {"id": "Q78", "num": 78, "q": "How long is Phong Nha Cave?", "options": ["About 30 kilometres", "About 8 kilometres", "About 3 kilometres", "About 80 kilometres"], "answer": 1, "explain": "Đoạn 2: 'Phong Nha Cave is about 8 kilometres long'."}, {"id": "Q79", "num": 79, "q": "How do tourists reach the entrance of the cave?", "options": ["By bus along a mountain road", "On foot through the forest", "By boat along the Son River", "By bicycle from the village"], "answer": 2, "explain": "Đoạn 2: du khách đi thuyền khoảng 30 phút dọc sông Son để vào hang."}, {"id": "Q80", "num": 80, "q": "The boat trip to Phong Nha Cave takes about ______.", "options": ["8 minutes", "80 minutes", "3 minutes", "30 minutes"], "answer": 3, "explain": "Đoạn 2: 'a boat trip of about 30 minutes'."}, {"id": "Q81", "num": 81, "q": "The word 'spectacular' in paragraph 1 is closest in meaning to ______.", "options": ["very impressive", "very dangerous", "very quiet", "very ordinary"], "answer": 0, "explain": "Spectacular = ngoạn mục, rất ấn tượng (very impressive)."}, {"id": "Q82", "num": 82, "q": "What do some rocks inside Phong Nha Cave look like?", "options": ["Dragons and islands", "Lions, Buddhas, and royal courts", "Boats and houses", "Birds and fish"], "answer": 1, "explain": "Đoạn 2: đá trong hang có hình sư tử, tượng Phật và cung điện."}, {"id": "Q83", "num": 83, "q": "The word 'it' in 'a beautiful underground river flows through it' refers to ______.", "options": ["the national park", "the Son River", "Phong Nha Cave", "the boat"], "answer": 2, "explain": "'It' thay thế cho Phong Nha Cave — dòng sông ngầm chảy xuyên qua hang."}, {"id": "Q84", "num": 84, "q": "What is special about the air inside the cave?", "options": ["It is hot in summer.", "It smells of the sea.", "It is dark all year round.", "It is cool all year round."], "answer": 3, "explain": "Đoạn 3: không khí trong hang mát mẻ quanh năm, kể cả ngày hè nóng."}, {"id": "Q85", "num": 85, "q": "Stalactites are ______.", "options": ["rock formations hanging from the ceiling of the cave", "lights along the paths in the cave", "large rooms inside the cave", "boats on the underground river"], "answer": 0, "explain": "Stalactites là các nhũ đá treo trên trần hang (hanging from the ceiling)."}, {"id": "Q86", "num": 86, "q": "Which of the following statements is TRUE?", "options": ["All parts of the underground river have been explored.", "Some parts of the underground river are still unexplored.", "Phong Nha Cave has no large chambers.", "The cave is closed to visitors in summer."], "answer": 1, "explain": "Đoạn 3: 'some parts of its underground river are still unexplored'."}, {"id": "Q87", "num": 87, "q": "Son Doong Cave is famous because it is ______.", "options": ["the deepest cave in Viet Nam", "the oldest cave in the world", "the largest cave on Earth", "the easiest cave to visit"], "answer": 2, "explain": "Đoạn 4: Sơn Đoòng là hang động lớn nhất Trái Đất."}, {"id": "Q88", "num": 88, "q": "Why is Phong Nha a perfect choice for families and school groups?", "options": ["Because it has its own jungle inside.", "Because Son Doong is in another country.", "Because tourists do not need a boat to visit it.", "Because it is easier to visit than Son Doong."], "answer": 3, "explain": "Đoạn 4: 'Phong Nha is easier to visit' nên rất hợp với gia đình và nhóm học sinh."}, {"id": "Q89", "num": 89, "q": "The passage is mainly about ______.", "options": ["a famous cave and why people should visit it", "how to explore Son Doong Cave", "the history of Quang Binh Province", "rivers in central Viet Nam"], "answer": 0, "explain": "Toàn bài giới thiệu hang Phong Nha và những lí do du khách nên đến thăm."}, {"id": "Q90", "num": 90, "q": "Which of the following can visitors do in Phong Nha Cave?", "options": ["Swim in the underground river", "Admire stalactites under the lights", "Camp inside the largest chamber", "Meet the dragons from the legend"], "answer": 1, "explain": "Đoạn 3: ánh đèn giúp du khách chiêm ngưỡng các nhũ đá lấp lánh trong hang."}]}]}, {"key": "arr", "title": "Sentence Building", "icon": "🔤", "max": 10, "parts": [{"intro": "Choose the correct sentence.", "passage": "", "qs": [{"id": "Q91", "num": 91, "q": "Choose the correct sentence about litter on the beach.", "options": ["You mustn't to drop litter on the beach.", "Mustn't you drop litter on the beach.", "You mustn't drop litter on the beach.", "You don't must drop litter on the beach."], "answer": 2, "explain": "Sau mustn't dùng động từ nguyên thể: mustn't drop."}, {"id": "Q92", "num": 92, "q": "Choose the correct sentence about water in the bottle.", "options": ["There is a few water in the bottle.", "There are a little islands in the bay.", "How many water do you drink every day?", "There is a little water in the bottle."], "answer": 3, "explain": "Water không đếm được, lượng ít nên dùng 'a little water' với 'There is'."}, {"id": "Q93", "num": 93, "q": "Choose the correct sentence about islands in Ha Long Bay.", "options": ["How many islands are there in Ha Long Bay?", "How much islands are there in Ha Long Bay?", "How many island is there in Ha Long Bay?", "There are how many islands in Ha Long Bay?"], "answer": 0, "explain": "Hỏi số lượng danh từ đếm được: How many islands are there...?"}, {"id": "Q94", "num": 94, "q": "Choose the correct sentence about the scenery.", "options": ["The scenery here amazing is.", "The scenery here is amazing.", "Is amazing the scenery here.", "Here scenery the is amazing."], "answer": 1, "explain": "Trật tự đúng: chủ ngữ + động từ to be + tính từ (The scenery here is amazing)."}, {"id": "Q95", "num": 95, "q": "Choose the correct sentence about sand on the beach.", "options": ["Are there any information about the cave?", "Is there many sand on the beach?", "Is there any sand on the beach?", "Are there any sand on the beach?"], "answer": 2, "explain": "Sand không đếm được nên dùng 'Is there any sand...?'."}, {"id": "Q96", "num": 96, "q": "Choose the correct sentence about wearing a hat in the sun.", "options": ["You should must wear a hat.", "Must you wear a hat in the sun you.", "You wear must a hat in the sun.", "You must wear a hat in the sun."], "answer": 3, "explain": "Cấu trúc đúng: chủ ngữ + must + động từ nguyên thể (You must wear...)."}, {"id": "Q97", "num": 97, "q": "Choose the correct sentence about a boat trip.", "options": ["We travelled to the island by boat yesterday.", "We by boat travelled to the island yesterday.", "To the island we by boat travelled yesterday.", "We travelled by boat to yesterday the island."], "answer": 0, "explain": "Trật tự câu quá khứ đúng: We travelled to the island by boat yesterday."}, {"id": "Q98", "num": 98, "q": "Choose the correct sentence about rocks in the cave.", "options": ["There is some big rocks in the cave.", "There are some big rocks in the cave.", "There are a big rock in the cave.", "There is any big rocks in the cave."], "answer": 1, "explain": "Rocks số nhiều nên dùng 'There are some big rocks'."}, {"id": "Q99", "num": 99, "q": "Choose the correct sentence about Fansipan.", "options": ["Fansipan is a highest mountain in Viet Nam.", "Fansipan is highest the mountain in Viet Nam.", "Fansipan is the highest mountain in Viet Nam.", "The Fansipan is highest mountain in Viet Nam."], "answer": 2, "explain": "So sánh nhất phải có 'the' đứng trước: the highest mountain."}, {"id": "Q100", "num": 100, "q": "Choose the correct sentence about bringing your own torch.", "options": ["You doesn't have to bring your own torch.", "You don't has to bring your own torch.", "You don't have to brings your own torch.", "You don't have to bring your own torch."], "answer": 3, "explain": "Cấu trúc đúng: don't have to + động từ nguyên thể (bring)."}]}]}], "speaking": {"title": "Speaking Challenge: Talk about Ha Long Bay", "task": "Talk about Ha Long Bay for about one minute. Use the prompts below to build your answer, and try to use the useful phrases. Record your voice, listen again, and record one more time if you can do better.", "prompts": ["Where is Ha Long Bay?", "How many islands are there in the bay? What do they look like?", "What can visitors do in Ha Long Bay?", "Which place in the bay do you want to visit most? Why?", "Why do you think Ha Long Bay is a natural wonder?"], "useful": ["is located in ...", "is famous for ...", "There are around ...", "Visitors can ...", "The scenery is amazing / fantastic.", "I would like to ...", "In my opinion, ...", "because ..."], "model": "Ha Long Bay is one of the most beautiful natural wonders in Viet Nam. It is in Quang Ninh Province, in the north of the country. The bay has around 1,600 islands with green trees and calm emerald water. When I visit the bay, I want to travel by boat and explore Sung Sot Cave because the rock formations inside are amazing. I also want to swim at Tuan Chau and taste fresh seafood. In my opinion, Ha Long Bay is a fantastic place because the scenery is wonderful and there are many interesting activities for visitors."}, "writing": {"title": "Writing Challenge: A place I want to visit", "task": "Write a paragraph of 100-120 words about a natural wonder in Viet Nam that you want to visit. Say where it is, what it looks like, how you will travel there, what you can do there, and one rule that visitors must follow.", "useful": ["The place I want to visit is ...", "It is located in ...", "It is famous for ...", "I want to go there by ...", "Visitors can ...", "We must ... / We mustn't ...", "I hope I can visit ... one day."], "model": "The natural wonder I want to visit most is Ban Gioc Waterfall in Cao Bang Province. It is one of the most beautiful waterfalls in Viet Nam, on the border with China. The water falls from about 30 metres into a wide green river, and the scenery around it is amazing, with forests and rice fields. I want to travel there by bus with my family. We can take a small boat to get close to the waterfall, take photos, and enjoy the cool, fresh air. We must wear life jackets on the boat and we mustn't swim in the deep water. I hope I can visit Ban Gioc one day soon."}};
+var state = {};
+var checkedCount = 0, score = 0;
+var ALLQ = [];
+DATA.sections.forEach(function(s){ s.parts.forEach(function(p){ p.qs.forEach(function(q){ q.sec = s.key; ALLQ.push(q); }); }); });
+
+function speak(text){
+  try{
+    var u = new SpeechSynthesisUtterance(text);
+    u.lang = 'en-GB'; u.rate = 0.92;
+    var vs = speechSynthesis.getVoices().filter(function(v){return v.lang && v.lang.indexOf('en-GB')===0;});
+    if(vs.length) u.voice = vs[0];
+    speechSynthesis.cancel(); speechSynthesis.speak(u);
+  }catch(e){}
+}
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function renderFlashcards(){
+  var h = '';
+  DATA.flashcards.forEach(function(c,ci){
+    h += '<div class="fc" onclick="this.classList.toggle(\'flipped\')"><div class="fc-inner">'
+      + '<div class="fc-face fc-front"><div class="em">'+c.emoji+'</div><div class="hint">UNIT 4 · TAP TO FLIP 👆</div></div>'
+      + '<div class="fc-face fc-back"><div class="w">'+esc(c.word)+'</div><div class="ipa">'+esc(c.ipa)+'</div><div class="vn">'+esc(c.vn)+'</div><div class="ex">“'+esc(c.ex)+'”</div>'
+      + '<button class="speak" data-i="' + ci + '">🔊 Listen</button></div>'
+      + '</div></div>';
+  });
+  document.getElementById('fcGrid').innerHTML = h;
+}
+document.addEventListener('click', function(e){
+  var b = (e.target && e.target.closest) ? e.target.closest('.speak') : null;
+  if(b){ e.stopPropagation(); speak(DATA.flashcards[+b.getAttribute('data-i')].word); }
+});
+function renderSections(){
+  var h = '';
+  DATA.sections.forEach(function(s){
+    h += '<div class="mission-head"><div class="ic">'+s.icon+'</div><div><h2>'+s.title+'</h2><p>'+s.max+' câu</p></div></div>';
+    s.parts.forEach(function(p){
+      if(p.intro) h += '<p class="part-intro">'+esc(p.intro)+'</p>';
+      if(p.passage) h += '<div class="passage">'+p.passage+'</div>';
+      p.qs.forEach(function(q){
+        h += '<div class="card"><div class="q">Question '+q.num+'. '+q.q+'</div>';
+        h += '<div class="opts">';
+        q.options.forEach(function(op,i){
+          h += '<label id="lab_'+q.id+'_'+i+'"><input type="radio" name="'+q.id+'" value="'+i+'"> '+'ABCD'[i]+'. '+esc(op)+'</label>';
+        });
+        h += '</div>';
+        h += '<button class="btn small blue" onclick="checkQ(\''+q.id+'\')">Check ✓</button>'
+           + '<div class="feedback" id="fb_'+q.id+'"></div>'
+           + '<div class="explain" id="ex_'+q.id+'">💡 '+esc(q.explain)+'</div></div>';
+      });
+    });
+  });
+  document.getElementById('sections').innerHTML = h;
+}
+function checkQ(id){
+  var q = ALLQ.find(function(x){return x.id===id;});
+  var fb = document.getElementById('fb_'+id);
+  var sel = document.querySelector('input[name="'+id+'"]:checked');
+  if(!sel){ fb.className='feedback no'; fb.textContent='Bạn chọn một đáp án trước đã nhé! 🙂'; return; }
+  var chosen = parseInt(sel.value);
+  var isRight = chosen === q.answer;
+  var wasChecked = state[id] && state[id].checked;
+  q.options.forEach(function(_,i){
+    var lab = document.getElementById('lab_'+id+'_'+i);
+    lab.classList.remove('correct','wrong');
+    if(i===q.answer) lab.classList.add('correct');
+    else if(i===chosen) lab.classList.add('wrong');
+  });
+  if(!wasChecked){ checkedCount++; if(isRight) score++; }
+  else if(state[id].right && !isRight){ score--; }
+  else if(!state[id].right && isRight){ score++; }
+  state[id] = { chosen: chosen, checked: true, right: isRight };
+  fb.className = 'feedback ' + (isRight ? 'ok' : 'no');
+  fb.textContent = isRight ? '✓ Đúng rồi! Giỏi lắm! 🎉' : '✗ Chưa đúng — đáp án đúng đã được tô xanh, đọc giải thích bên dưới nhé.';
+  document.getElementById('ex_'+id).style.display = 'block';
+  document.getElementById('progressLine').textContent = 'Đã kiểm tra: ' + checkedCount + ' / 100 câu 🌏';
+  if(checkedCount === ALLQ.length) showReport();
+}
+function makeCode(){
+  var s = '';
+  ALLQ.forEach(function(q){
+    var st = state[q.id];
+    if(!st || !st.checked) s += '-';
+    else s += st.chosen;
+  });
+  return 'KQU5A-' + s;
+}
+function showReport(){
+  var name = document.getElementById('studentName').value.trim() || 'Kiến Quốc';
+  document.getElementById('reportName').textContent = 'Học sinh: ' + name + ' 🌏';
+  document.getElementById('reportScore').textContent = score + ' / 100';
+  var per = '';
+  DATA.sections.forEach(function(s){
+    var sc = 0, tot = 0;
+    s.parts.forEach(function(p){ p.qs.forEach(function(q){ tot++; if(state[q.id] && state[q.id].right) sc++; }); });
+    per += '<span>'+(s.title.indexOf('·')>=0 ? s.title.split('·')[1].trim() : s.title)+': '+sc+'/'+tot+'</span>';
+  });
+  document.getElementById('reportPer').innerHTML = per;
+  document.getElementById('reportMsg').textContent =
+    score>=90 ? 'Xuất sắc! Bạn đã sẵn sàng chinh phục đề thi tốt nghiệp rồi! 🏆🌏' :
+    score>=75 ? 'Rất tốt! Bạn nắm chắc phần lớn kiến thức Unit 5. Xem lại vài câu sai là hoàn hảo! 💪' :
+    score>=50 ? 'Khá tốt! Đọc lại giải thích các câu sai, ôn flashcards thêm một lượt rồi làm lại nhé! 🌈' :
+                 'Đừng nản nhé! Ôn lại từ vựng và ngữ pháp Unit 5, rồi thử sức lại — bạn sẽ tiến bộ rõ rệt! 🚀';
+  document.getElementById('reportCode').textContent = makeCode();
+  document.getElementById('report').style.display = 'block';
+  document.getElementById('report').scrollIntoView({behavior:'smooth'});
+}
+function startGame(){
+  var name = document.getElementById('studentName').value.trim();
+  if(!name){ alert('Bạn nhập họ tên trước khi bắt đầu nhé!'); return; }
+  document.getElementById('startCard').style.display = 'none';
+  document.getElementById('mainArea').style.display = 'block';
+  window.scrollTo(0,0);
+}
+function restoreGame(){
+  var code = document.getElementById('restoreCode').value.trim().toUpperCase();
+  if(code.indexOf('KQU5A-') !== 0){ alert('Mã khôi phục chưa đúng — mã bắt đầu bằng KQU5A- nhé!'); return; }
+  var digits = code.substring(6);
+  if(digits.length < ALLQ.length){ alert('Mã khôi phục chưa đủ dài, bạn kiểm tra lại nhé!'); return; }
+  if(!document.getElementById('studentName').value.trim()) document.getElementById('studentName').value = 'Kiến Quốc';
+  startGame();
+  ALLQ.forEach(function(q, i){
+    var ch = digits[i];
+    if(ch === '-') return;
+    var v = parseInt(ch);
+    if(isNaN(v)) return;
+    var inp = document.querySelector('input[name="'+q.id+'"][value="'+v+'"]');
+    if(inp){ inp.checked = true; checkQ(q.id); }
+  });
+}
+
+function renderChallenges(){
+  var h = '';
+  if(DATA.speaking){
+    var sp = DATA.speaking;
+    h += '<div class="card gold"><h2>\u{1F5E3}\u{FE0F} ' + esc(sp.title) + '</h2>'
+      + '<p class="sub">' + esc(sp.task) + '</p>'
+      + '<p style="font-weight:800;margin:10px 0 4px">Answer these questions:</p><ol style="margin:0 0 8px 22px;line-height:1.6">'
+      + sp.prompts.map(function(p){ return '<li>' + esc(p) + '</li>'; }).join('') + '</ol>'
+      + '<p style="font-weight:800;margin:10px 0 4px">Useful language:</p><div class="per">'
+      + sp.useful.map(function(u){ return '<span>' + esc(u) + '</span>'; }).join('') + '</div>'
+      + '<button class="btn small blue" onclick="var x=document.getElementById(\'spModel\');x.style.display=(x.style.display===\'block\'?\'none\':\'block\');this.textContent=(x.style.display===\'block\'?\'Hide model\':\'Show model\');">Show model</button>'
+      + '<div id="spModel" style="display:none;background:#EFF6FF;border:2px solid #BFDBFE;border-radius:12px;padding:14px 16px;margin-top:10px;line-height:1.65">' + esc(sp.model) + '</div>'
+      + '<p class="small">Ph\u1EA7n n\u00E0y kh\u00F4ng t\u00EDnh \u0111i\u1EC3m \u2014 luy\u1EC7n n\u00F3i th\u00E0nh ti\u1EBFng r\u1ED3i nh\u1EDD c\u00F4 ch\u1EA5m nh\u00E9! \u{1F399}\u{FE0F}</p></div>';
+  }
+  if(DATA.writing){
+    var wr = DATA.writing;
+    h += '<div class="card gold"><h2>\u{270D}\u{FE0F} ' + esc(wr.title) + '</h2>'
+      + '<p class="sub">' + esc(wr.task) + '</p>'
+      + '<p style="font-weight:800;margin:10px 0 4px">Useful language:</p><div class="per">'
+      + wr.useful.map(function(u){ return '<span>' + esc(u) + '</span>'; }).join('') + '</div>'
+      + '<button class="btn small blue" onclick="var x=document.getElementById(\'wrModel\');x.style.display=(x.style.display===\'block\'?\'none\':\'block\');this.textContent=(x.style.display===\'block\'?\'Hide model\':\'Show model\');">Show model</button>'
+      + '<div id="wrModel" style="display:none;background:#EFF6FF;border:2px solid #BFDBFE;border-radius:12px;padding:14px 16px;margin-top:10px;line-height:1.65">' + esc(wr.model) + '</div>'
+      + '<p class="small">Ph\u1EA7n n\u00E0y kh\u00F4ng t\u00EDnh \u0111i\u1EC3m \u2014 vi\u1EBFt v\u00E0o v\u1EDF r\u1ED3i ch\u1EE5p g\u1EEDi c\u00F4 ch\u1EA5m nh\u00E9! \u{1F4F8}</p></div>';
+  }
+  document.getElementById('challenges').innerHTML = h;
+}
+renderFlashcards();
+renderSections();
+renderChallenges();
+</script>
+</body>
+</html>

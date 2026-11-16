@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mountain Climber — Unit 5 Natural Wonders — Game cho Kiến Quốc</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Nunito',sans-serif;background:linear-gradient(180deg,#FDFBF3 0%,#EFF6FF 55%,#FEF3C7 130%);color:#12263A;padding:22px 14px 70px;min-height:100vh}
+  .wrap{max-width:900px;margin:0 auto}
+  header{text-align:center;padding:30px 18px 24px;background:linear-gradient(135deg,#7F1D1D,#B91C1C 45%,#1D4ED8);color:#fff;border-radius:22px;box-shadow:0 14px 30px rgba(127,29,29,.30)}
+  header .badge{display:inline-block;background:#F59E0B;color:#451A03;font-weight:800;padding:5px 16px;border-radius:999px;font-size:13px;letter-spacing:1.2px}
+  header h1{font-family:'Baloo 2',cursive;font-size:clamp(25px,5.2vw,38px);margin:12px 0 6px;line-height:1.18}
+  header p{color:#FDE68A;font-size:16px}
+  .card{background:#fff;border-radius:18px;box-shadow:0 4px 10px rgba(18,38,58,.08),0 14px 30px rgba(18,38,58,.10);padding:22px;margin-top:18px;border-top:6px solid #1D4ED8}
+  .card.gold{border-top-color:#F59E0B}
+  .card.red{border-top-color:#B91C1C}
+  h2{font-family:'Baloo 2',cursive;font-size:24px;color:#12263A;margin-bottom:6px}
+  .sub{color:#4E6A82;font-size:15.5px;line-height:1.5}
+  input[type=text]{width:100%;padding:13px 15px;font-size:17px;border:2px solid #CFE0DA;border-radius:12px;margin:8px 0 10px;font-family:inherit}
+  input[type=text]:focus{outline:none;border-color:#1D4ED8}
+  .btn{background:#12263A;color:#fff;border:none;padding:13px 30px;border-radius:999px;font-size:17px;font-weight:800;cursor:pointer;font-family:inherit;box-shadow:0 6px 14px rgba(18,38,58,.25)}
+  .btn:hover{background:#1D3A5F}
+  .btn.blue{background:#1D4ED8}.btn.blue:hover{background:#1E40AF}
+  .btn.gold{background:#F59E0B;color:#451A03}.btn.gold:hover{background:#D97706}
+  .btn.small{padding:9px 22px;font-size:15px}
+  .fc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;margin-top:14px}
+  .fc{perspective:700px;height:172px;cursor:pointer}
+  .fc-inner{position:relative;width:100%;height:100%;transition:transform .55s;transform-style:preserve-3d}
+  .fc.flipped .fc-inner{transform:rotateY(180deg)}
+  .fc-face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12px;text-align:center;box-shadow:0 6px 16px rgba(18,38,58,.14)}
+  .fc-front{background:linear-gradient(160deg,#EFF6FF,#DBEAFE);border:2px dashed #1D4ED8}
+  .fc-front .em{font-size:52px}
+  .fc-front .hint{font-size:12.5px;color:#1D4ED8;font-weight:800;margin-top:6px;letter-spacing:.6px}
+  .fc-back{background:linear-gradient(160deg,#7F1D1D,#B91C1C);color:#fff;transform:rotateY(180deg)}
+  .fc-back .w{font-family:'Baloo 2',cursive;font-size:21px;color:#FDE68A}
+  .fc-back .ipa{font-size:14px;color:#FECACA}
+  .fc-back .vn{font-size:15px;font-weight:800;margin-top:3px}
+  .fc-back .ex{font-size:13px;color:#FEE2E2;margin-top:6px;line-height:1.4;font-style:italic}
+  .speak{margin-top:8px;background:#F59E0B;border:none;border-radius:999px;padding:5px 14px;font-weight:800;cursor:pointer;font-size:14px;color:#451A03}
+  .mission-head{display:flex;align-items:center;gap:12px;margin-top:34px}
+  .mission-head .ic{font-size:34px;background:#fff;border-radius:50%;width:58px;height:58px;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 14px rgba(18,38,58,.15)}
+  .mission-head h2{font-size:25px}
+  .mission-head p{color:#4E6A82;font-size:14.5px;font-weight:700}
+  .part-intro{font-size:16px;font-weight:700;color:#7F1D1D;margin:16px 2px 4px}
+  .q{font-size:17.5px;font-weight:700;line-height:1.5;margin-bottom:6px}
+  .passage{background:#FFFBEB;border-left:5px solid #F59E0B;border-radius:10px;padding:15px 17px;font-size:16.5px;line-height:1.65;margin:12px 0 4px;color:#173F57}
+  .opts label{display:block;padding:11px 15px;border:2px solid #E1E9E6;border-radius:12px;margin:8px 0;cursor:pointer;font-size:16.5px;transition:.15s;background:#FDFEFE;line-height:1.45}
+  .opts label:hover{border-color:#1D4ED8;background:#EFF6FF}
+  .opts input{margin-right:9px;transform:scale(1.2)}
+  .opts label.correct{border-color:#1E9E6A;background:#E7F7EF}
+  .opts label.wrong{border-color:#D64545;background:#FDECEC}
+  .explain{display:none;margin-top:12px;background:#EFF6FF;border:1px solid #BFDBFE;color:#1E40AF;border-radius:10px;padding:11px 14px;font-size:15.5px;line-height:1.55}
+  .feedback{font-weight:800;margin-top:9px;font-size:16px;min-height:20px}
+  .ok{color:#1E9E6A}.no{color:#D64545}
+  .progress{text-align:center;font-weight:800;color:#7F1D1D;margin-top:22px;font-size:17px}
+  #mainArea{display:none}
+  #report{display:none;text-align:center}
+  #report .score{font-family:'Baloo 2',cursive;font-size:52px;font-weight:800;color:#12263A}
+  .per{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:12px 0}
+  .per span{background:#EFF6FF;border:2px solid #BFDBFE;border-radius:999px;padding:6px 14px;font-weight:800;font-size:14.5px}
+  .code{font-family:ui-monospace,monospace;background:#12263A;color:#FDE68A;padding:10px 14px;border-radius:10px;font-size:13.5px;display:inline-block;margin-top:8px;word-break:break-all;max-width:100%}
+  .small{font-size:14px;color:#4E6A82;margin-top:10px;line-height:1.55}
+  footer{text-align:center;margin-top:34px;color:#7C2D12;font-weight:700;font-size:14.5px;line-height:1.6}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="badge">📗 GLOBAL SUCCESS 6 · UNIT 5: NATURAL WONDERS OF VIET NAM 📗</span>
+    <h1>MOUNTAIN CLIMBER — UNIT 5 NATURAL WONDERS</h1>
+    <p>Game riêng cho Kiến Quốc · 100 câu trắc nghiệm + thử thách Nói &amp; Viết · Trình độ B1+ · Thời gian gợi ý: 90 phút</p>
+  </header>
+
+  <div class="card" id="startCard">
+    <h2>🎯 Chào bạn!</h2>
+    <p class="sub">Nhập tên của bạn rồi bấm <b>Start</b>. Game gồm <b>100 câu</b>: <b>Từ vựng (20) · Ngữ pháp (30) · Điền khuyết (10) · Đọc hiểu 1 (15) · Đọc hiểu 2 (15) · Sắp xếp câu (10)</b>. Cuối game còn có <b>1 thử thách Nói</b> và <b>1 thử thách Viết</b> (không tính điểm, để luyện thêm). Mỗi câu có nút <b>Check</b> riêng kèm giải thích tiếng Việt — cứ bình tĩnh làm hết 100 câu nhé!</p>
+    <input type="text" id="studentName" placeholder="Nhập họ tên của bạn...">
+    <button class="btn blue" onclick="startGame()">🚀 Start — Bắt đầu!</button>
+    <p class="small">Có <b>mã khôi phục</b> từ lần làm trước? Dán mã vào ô dưới rồi bấm Restore để làm tiếp đúng chỗ cũ:<br>
+    <input type="text" id="restoreCode" placeholder="Recovery code (KQU5D-...)">
+    <button class="btn small gold" onclick="restoreGame()">Restore</button></p>
+  </div>
+
+  <div id="mainArea">
+    <div class="card gold">
+      <h2>🃏 Flashcards — Ôn từ vựng Unit 5 trước khi chơi</h2>
+      <p class="sub">Bấm vào từng thẻ để lật xem từ vựng. Bấm 🔊 để nghe phát âm giọng Anh-Anh.</p>
+      <div class="fc-grid" id="fcGrid"></div>
+    </div>
+
+    <div id="sections"></div>
+    <div id="challenges"></div>
+
+    <p class="progress" id="progressLine">Đã kiểm tra: 0 / 100 câu 🌏</p>
+
+    <div class="card gold" id="report">
+      <h2>🏆 PROGRESS REPORT — THẺ BÁO CÁO ĐIỂM</h2>
+      <p style="font-size:18px;margin-top:4px" id="reportName"></p>
+      <div class="score" id="reportScore"></div>
+      <div class="per" id="reportPer"></div>
+      <p id="reportMsg" style="font-size:16.5px;line-height:1.55"></p>
+      <p class="small">Chụp màn hình báo cáo này gửi cho cô giáo nhé! 📸<br>Mã khôi phục tiến độ (lần sau dán vào ô Restore ở màn hình đầu để làm tiếp):</p>
+      <div class="code" id="reportCode"></div>
+    </div>
+  </div>
+  <footer>✍️ Created by Mrs. Thanh Giang — Giáo viên tiếng Anh, Trường THPT Chuyên Thoại Ngọc Hầu, tỉnh An Giang</footer>
+</div>
+
+<script>
+var DATA = {"title": "Mountain Climber — Unit 5 Natural Wonders", "flashcards": [{"emoji": "🏝️", "word": "island", "ipa": "/ˈaɪlənd/", "vn": "hòn đảo", "ex": "Thousands of small islands rise from the sea in Ha Long Bay."}, {"emoji": "🕳️", "word": "cave", "ipa": "/keɪv/", "vn": "hang động", "ex": "Visitors need a torch to explore the dark cave."}, {"emoji": "🌊", "word": "waterfall", "ipa": "/ˈwɔːtəfɔːl/", "vn": "thác nước", "ex": "The waterfall is 30 metres high and very beautiful."}, {"emoji": "🌲", "word": "forest", "ipa": "/ˈfɒrɪst/", "vn": "rừng", "ex": "Many rare animals live in this thick forest."}, {"emoji": "🏜️", "word": "desert", "ipa": "/ˈdezət/", "vn": "sa mạc", "ex": "It almost never rains in the desert."}, {"emoji": "🏞️", "word": "lake", "ipa": "/leɪk/", "vn": "hồ", "ex": "We went swimming in the clear lake near the village."}, {"emoji": "🏖️", "word": "beach", "ipa": "/biːtʃ/", "vn": "bãi biển", "ex": "Children love playing on the sandy beach."}, {"emoji": "⛰️", "word": "mountain", "ipa": "/ˈmaʊntən/", "vn": "núi", "ex": "Fansipan is the highest mountain in Viet Nam."}, {"emoji": "🌄", "word": "valley", "ipa": "/ˈvæli/", "vn": "thung lũng", "ex": "A small river runs through the green valley."}, {"emoji": "🌅", "word": "bay", "ipa": "/beɪ/", "vn": "vịnh", "ex": "We took a boat tour around the bay at sunset."}, {"emoji": "🎒", "word": "backpack", "ipa": "/ˈbækpæk/", "vn": "ba lô", "ex": "He carried water and food in his backpack."}, {"emoji": "🧭", "word": "compass", "ipa": "/ˈkʌmpəs/", "vn": "la bàn", "ex": "Use a compass so you don't get lost in the forest."}], "sections": [{"key": "vocab", "title": "Vocabulary in Context", "icon": "📚", "max": 20, "parts": [{"intro": "Choose the best answer to complete each sentence.", "passage": "", "qs": [{"id": "Q1", "num": 1, "q": "Ha Long Bay is famous for its beautiful ______, with thousands of limestone islands rising from the sea.", "options": ["scenery", "weather", "traffic", "homework"], "answer": 0, "explain": "'Scenery' là phong cảnh thiên nhiên — hợp với cảnh vịnh và đảo đá vôi."}, {"id": "Q2", "num": 2, "q": "Son Doong is the largest ______ in the world; it is so big that a whole forest grows inside it.", "options": ["lake", "cave", "desert", "valley"], "answer": 1, "explain": "Sơn Đoòng là hang động lớn nhất thế giới nên đáp án là 'cave'."}, {"id": "Q3", "num": 3, "q": "From the top of the mountain, we could see the whole ______ between the two high ranges.", "options": ["bay", "beach", "valley", "island"], "answer": 2, "explain": "Vùng đất thấp nằm giữa hai dãy núi cao là 'valley' (thung lũng)."}, {"id": "Q4", "num": 4, "q": "You should wear a hat and put on ______ to protect your skin from the strong sun at the beach.", "options": ["a torch", "a sleeping bag", "a compass", "suncream"], "answer": 3, "explain": "Để bảo vệ da khỏi nắng ta dùng 'suncream' (kem chống nắng)."}, {"id": "Q5", "num": 5, "q": "Thousands of tourists ______ Ha Long Bay every year to enjoy its natural beauty.", "options": ["visit", "invent", "pollute", "forget"], "answer": 0, "explain": "Du khách 'visit' (tham quan) vịnh Hạ Long mỗi năm."}, {"id": "Q6", "num": 6, "q": "The Red River is very ______ — in some places it is more than a kilometre from one bank to the other.", "options": ["high", "wide", "deep", "tall"], "answer": 1, "explain": "Khoảng cách giữa hai bờ sông lớn nên dùng 'wide' (rộng)."}, {"id": "Q7", "num": 7, "q": "We took a ______ tour around the bay, and the guide told us stories about the islands.", "options": ["train", "plane", "boat", "bus"], "answer": 2, "explain": "Đi tham quan quanh vịnh thì phải đi 'boat tour' (tour bằng thuyền)."}, {"id": "Q8", "num": 8, "q": "Fansipan is a ______ wonder that attracts climbers from all over the world.", "options": ["nature", "naturally", "nation", "natural"], "answer": 3, "explain": "Trước danh từ 'wonder' cần tính từ 'natural' (thuộc về thiên nhiên)."}, {"id": "Q9", "num": 9, "q": "The waterfall is ______! The water falls from a height of 30 metres into a clear pool below.", "options": ["amazing", "boring", "crowded", "dangerous"], "answer": 0, "explain": "Câu cảm thán khen thác nước hùng vĩ nên chọn 'amazing' (tuyệt vời)."}, {"id": "Q10", "num": 10, "q": "Before the trip, check the ______ so you don't get lost in the forest.", "options": ["torch", "map", "suncream", "sleeping bag"], "answer": 1, "explain": "Xem 'map' (bản đồ) để không bị lạc trong rừng."}, {"id": "Q11", "num": 11, "q": "This beach is very ______ with young people because the waves are perfect for surfing.", "options": ["proud", "busy", "popular", "full"], "answer": 2, "explain": "Cụm cố định 'popular with somebody' = được ai đó yêu thích."}, {"id": "Q12", "num": 12, "q": "It takes about six hours to ______ from Ha Noi to Sa Pa by train.", "options": ["arrive", "visit", "stay", "travel"], "answer": 3, "explain": "'Travel from ... to ...' = di chuyển từ nơi này đến nơi khác."}, {"id": "Q13", "num": 13, "q": "The lake is very ______ — about 60 metres at its deepest point — so be careful when you swim.", "options": ["deep", "high", "far", "long"], "answer": 0, "explain": "Độ sâu của hồ dùng tính từ 'deep' (sâu)."}, {"id": "Q14", "num": 14, "q": "We carried everything in our ______: food, water, a tent and a sleeping bag.", "options": ["compasses", "backpacks", "torches", "maps"], "answer": 1, "explain": "Đựng đồ ăn, nước, lều khi đi dã ngoại thì dùng 'backpacks' (ba lô)."}, {"id": "Q15", "num": 15, "q": "Cat Ba is the largest ______ in Ha Long Bay; about 13,000 people live there.", "options": ["cave", "river", "island", "desert"], "answer": 2, "explain": "Cát Bà là hòn đảo lớn nhất vịnh Hạ Long — 'island'."}, {"id": "Q16", "num": 16, "q": "The Sahara is the largest hot ______ in the world, covering most of North Africa.", "options": ["forest", "lake", "beach", "desert"], "answer": 3, "explain": "Sahara là sa mạc nóng lớn nhất thế giới — 'desert'."}, {"id": "Q17", "num": 17, "q": "At night we slept in a ______ inside our tent because the mountain air was cold.", "options": ["sleeping bag", "suncream", "map", "compass"], "answer": 0, "explain": "Ngủ trong lều khi trời lạnh thì chui vào 'sleeping bag' (túi ngủ)."}, {"id": "Q18", "num": 18, "q": "The view from the cable car is ______ — you can see forests, valleys and villages far below.", "options": ["terrible", "fantastic", "ordinary", "noisy"], "answer": 1, "explain": "Khung cảnh tuyệt đẹp nhìn từ cáp treo là 'fantastic' (tuyệt vời)."}, {"id": "Q19", "num": 19, "q": "A ______ showed us the way through the forest and told us the names of the rare plants.", "options": ["tourist", "visitor", "guide", "driver"], "answer": 2, "explain": "Người dẫn đường và giới thiệu cho du khách là 'guide' (hướng dẫn viên)."}, {"id": "Q20", "num": 20, "q": "How ______ is it from the town to the waterfall? — About 12 kilometres.", "options": ["long", "often", "much", "far"], "answer": 3, "explain": "Hỏi khoảng cách địa lí dùng 'How far is it from ... to ...?'."}]}]}, {"key": "grammar", "title": "Grammar: Countable / Uncountable & must / mustn't", "icon": "🧩", "max": 30, "parts": [{"intro": "Choose the best answer to complete each sentence.", "passage": "", "qs": [{"id": "Q21", "num": 21, "q": "The tour guide gave us a lot of useful ______ about the cave.", "options": ["informations", "many information", "information", "an information"], "answer": 2, "explain": "'Information' là danh từ không đếm được: không có dạng số nhiều và không dùng 'a/an'."}, {"id": "Q22", "num": 22, "q": "How ______ bottles of water should we take on the climb?", "options": ["many", "much", "a little", "any"], "answer": 0, "explain": "'Bottles' là danh từ đếm được số nhiều nên hỏi bằng 'How many'."}, {"id": "Q23", "num": 23, "q": "Please buy ______ bread and cheese for the trip to the island.", "options": ["any", "many", "a few", "some"], "answer": 3, "explain": "Câu khẳng định dùng 'some'; 'bread/cheese' không đếm được nên không dùng 'many/a few'."}, {"id": "Q24", "num": 24, "q": "There are only ______ seats left on the boat, so book quickly!", "options": ["a little", "a few", "much", "any"], "answer": 1, "explain": "'Seats' đếm được, số lượng ít nên dùng 'a few'."}, {"id": "Q25", "num": 25, "q": "Add ______ salt to the soup — just a small amount.", "options": ["much", "a little", "many", "a few"], "answer": 1, "explain": "'Salt' không đếm được, lượng nhỏ nên dùng 'a little'."}, {"id": "Q26", "num": 26, "q": "______ visitors come to this beach in summer — sometimes more than 5,000 a day.", "options": ["Much", "A little", "Any", "A lot of"], "answer": 3, "explain": "'Visitors' đếm được số nhiều với số lượng lớn: 'A lot of visitors'."}, {"id": "Q27", "num": 27, "q": "Is there ______ milk in the fridge for breakfast?", "options": ["any", "many", "a few", "some"], "answer": 0, "explain": "Câu hỏi thông thường với danh từ không đếm được dùng 'any'."}, {"id": "Q28", "num": 28, "q": "She drank ______ water after running 10 kilometres in the sun.", "options": ["a few", "many", "a lot of", "any"], "answer": 2, "explain": "'Water' không đếm được; câu khẳng định chỉ lượng nhiều dùng 'a lot of'."}, {"id": "Q29", "num": 29, "q": "How ______ does the boat tour cost?", "options": ["many", "far", "long", "much"], "answer": 3, "explain": "Hỏi giá tiền dùng 'How much does it cost?'."}, {"id": "Q30", "num": 30, "q": "There are ______ beautiful islands in Ha Long Bay — nearly 2,000 of them!", "options": ["much", "a little", "many", "any"], "answer": 2, "explain": "'Islands' đếm được số nhiều nên dùng 'many'."}, {"id": "Q31", "num": 31, "q": "Be careful: there is only ______ petrol left in the motorbike.", "options": ["a few", "a little", "many", "much"], "answer": 1, "explain": "'Only' + danh từ không đếm được 'petrol' → 'only a little'."}, {"id": "Q32", "num": 32, "q": "We need ______ eggs to make the cake — about three or four.", "options": ["a few", "a little", "much", "any"], "answer": 0, "explain": "'Eggs' đếm được, khoảng 3–4 quả nên dùng 'a few'."}, {"id": "Q33", "num": 33, "q": "______ cheese do we need for the sandwiches?", "options": ["How much", "How many", "How far", "How long"], "answer": 0, "explain": "'Cheese' không đếm được nên hỏi 'How much cheese'."}, {"id": "Q34", "num": 34, "q": "The students must ______ their phones off during the test.", "options": ["turns", "turning", "turn", "to turn"], "answer": 2, "explain": "Sau động từ khuyết thiếu 'must' dùng động từ nguyên thể: 'turn off'."}, {"id": "Q35", "num": 35, "q": "You ______ swim in this lake. It's dangerous — the water is very deep.", "options": ["must", "can", "should", "mustn't"], "answer": 3, "explain": "Hồ nguy hiểm nên cấm bơi: 'mustn't' = không được phép."}, {"id": "Q36", "num": 36, "q": "Visitors ______ feed the monkeys. Human food is bad for them.", "options": ["must", "mustn't", "can", "will"], "answer": 1, "explain": "Đây là quy định cấm cho khỉ ăn nên dùng 'mustn't'."}, {"id": "Q37", "num": 37, "q": "To stay safe on the boat, passengers ______ wear a life jacket.", "options": ["mustn't", "are", "must", "don't"], "answer": 2, "explain": "Quy định bắt buộc mặc áo phao để an toàn: 'must wear'."}, {"id": "Q38", "num": 38, "q": "You ______ take photos with a flash in the cave — it can damage the ancient paintings.", "options": ["must", "mustn't", "may", "will"], "answer": 1, "explain": "Cấm dùng đèn flash vì làm hỏng tranh cổ: 'mustn't'."}, {"id": "Q39", "num": 39, "q": "Everyone ______ be at the harbour at 6 a.m. The boat won't wait for latecomers.", "options": ["must", "mustn't", "isn't", "don't"], "answer": 0, "explain": "Bắt buộc có mặt đúng giờ vì thuyền không chờ: 'must be'."}, {"id": "Q40", "num": 40, "q": "We ______ leave rubbish on the beach. Let's keep it clean for everyone.", "options": ["must", "can", "will", "mustn't"], "answer": 3, "explain": "Không được xả rác ở bãi biển: 'mustn't leave'."}, {"id": "Q41", "num": 41, "q": "If you feel sick on the boat, you ______ tell the guide at once.", "options": ["mustn't", "must", "aren't", "don't"], "answer": 1, "explain": "Việc bắt buộc phải làm ngay khi thấy mệt: 'must tell'."}, {"id": "Q42", "num": 42, "q": "You ______ touch the coral when you swim. It breaks very easily.", "options": ["mustn't", "must", "can", "will"], "answer": 0, "explain": "San hô dễ vỡ nên cấm chạm vào: 'mustn't touch'."}, {"id": "Q43", "num": 43, "q": "Drivers ______ stop when they see a red light.", "options": ["mustn't", "can't", "won't", "must"], "answer": 3, "explain": "Luật giao thông bắt buộc dừng khi đèn đỏ: 'must stop'."}, {"id": "Q44", "num": 44, "q": "______ Ha Long Bay is one of the most famous natural wonders in Viet Nam.", "options": ["a", "an", "no article", "the"], "answer": 2, "explain": "Tên vịnh 'Ha Long Bay' không dùng mạo từ."}, {"id": "Q45", "num": 45, "q": "______ a lot of interesting caves in Phong Nha – Ke Bang National Park.", "options": ["There is", "It is", "There be", "There are"], "answer": 3, "explain": "'A lot of caves' số nhiều nên dùng 'There are'."}, {"id": "Q46", "num": 46, "q": "We took ______ boat to Cat Ba Island and stayed there for two nights.", "options": ["a", "an", "the", "many"], "answer": 0, "explain": "Lần đầu nhắc đến một chiếc thuyền nói chung dùng mạo từ 'a'."}, {"id": "Q47", "num": 47, "q": "______ any waterfalls near your home town?", "options": ["Is there", "There are", "Are there", "There is"], "answer": 2, "explain": "Câu hỏi với danh từ số nhiều 'waterfalls' dùng 'Are there ...?'."}, {"id": "Q48", "num": 48, "q": "Mount Everest is ______ highest mountain in the world.", "options": ["a", "the", "an", "no article"], "answer": 1, "explain": "Trước tính từ so sánh nhất 'highest' phải dùng 'the'."}, {"id": "Q49", "num": 49, "q": "There ______ a beautiful lake at the foot of the mountain.", "options": ["is", "are", "be", "were"], "answer": 0, "explain": "'A beautiful lake' số ít, nói về hiện tại nên 'There is'."}, {"id": "Q50", "num": 50, "q": "We stayed in ______ small hotel near the beach. ______ hotel was cheap and clean.", "options": ["the / A", "a / A", "a / The", "the / The"], "answer": 2, "explain": "Lần đầu nhắc dùng 'a small hotel'; nhắc lại lần hai dùng 'The hotel'."}]}]}, {"key": "cloze", "title": "Cloze Passage", "icon": "✏️", "max": 10, "parts": [{"intro": "Read the passage about a school trip to Ba Vi Mountain and choose the best answer for each blank.", "passage": "Last month, my class visited Ba Vi Mountain near Ha Noi. We left school early and travelled by bus. Our guide, Mr Tam, told us to bring (1) ______ water because the climb took three hours. The forest path was narrow, so we walked in a line. Mr Tam said, 'You (2) ______ run on the wet rocks. They are very dangerous.' Halfway up, we stopped at a waterfall to rest and take photos. The (3) ______ there was wonderful — green forests, deep valleys and white clouds below us. At the top, it was windy and cold, but we felt (4) ______ because we had reached the top. Before we went down, Mr Tam gave us (5) ______ advice: 'Take your rubbish home. We (6) ______ leave anything in the forest.' The mountain is home to (7) ______ rare plants and animals, so visitors must protect them. It was a tiring day, but (8) ______ student in my class wants to return. On the way home, everyone slept (9) ______ on the bus. I will never forget this (10) ______ trip.", "qs": [{"id": "Q51", "num": 51, "q": "(1) ______", "options": ["plenty of", "many", "a few", "any"], "answer": 0, "explain": "Mang theo nhiều nước cho chuyến leo núi dài: 'plenty of water' (rất nhiều nước)."}, {"id": "Q52", "num": 52, "q": "(2) ______", "options": ["must", "mustn't", "can", "will"], "answer": 1, "explain": "Đá ướt rất nguy hiểm nên hướng dẫn viên cấm chạy: 'mustn't run'."}, {"id": "Q53", "num": 53, "q": "(3) ______", "options": ["weather", "traffic", "homework", "scenery"], "answer": 3, "explain": "Cảnh rừng xanh, thung lũng và mây trắng là 'scenery' (phong cảnh)."}, {"id": "Q54", "num": 54, "q": "(4) ______", "options": ["bored", "tired", "excited", "asleep"], "answer": 2, "explain": "Có 'but' đối lập với gió lạnh: lên tới đỉnh nên cảm thấy 'excited' (phấn khích)."}, {"id": "Q55", "num": 55, "q": "(5) ______", "options": ["many", "some", "a few", "an"], "answer": 1, "explain": "'Advice' không đếm được; câu khẳng định dùng 'some advice'."}, {"id": "Q56", "num": 56, "q": "(6) ______", "options": ["must", "can", "will", "mustn't"], "answer": 3, "explain": "Không được để lại rác trong rừng: 'mustn't leave'."}, {"id": "Q57", "num": 57, "q": "(7) ______", "options": ["many", "much", "a little", "any"], "answer": 0, "explain": "'Plants and animals' đếm được số nhiều nên dùng 'many'."}, {"id": "Q58", "num": 58, "q": "(8) ______", "options": ["all", "most", "some", "every"], "answer": 3, "explain": "Động từ 'wants' số ít nên cần 'every student' (mọi học sinh)."}, {"id": "Q59", "num": 59, "q": "(9) ______", "options": ["sound", "soundly", "loud", "loudly"], "answer": 1, "explain": "Cụm 'sleep soundly' = ngủ say/ngon giấc; cần trạng từ 'soundly'."}, {"id": "Q60", "num": 60, "q": "(10) ______", "options": ["boring", "ordinary", "unforgettable", "noisy"], "answer": 2, "explain": "Câu cuối 'I will never forget' nên chuyến đi là 'unforgettable' (không thể quên)."}]}]}, {"key": "read1", "title": "Reading 1: Fansipan — the Roof of Indochina", "icon": "📖", "max": 15, "parts": [{"intro": "Read the passage about Fansipan and choose the best answer for each question.", "passage": "Fansipan is the highest mountain in Viet Nam and in the whole of Indochina, so people often call it 'the Roof of Indochina'. It is 3,143 metres high and stands in Lao Cai Province, near the famous town of Sa Pa. For many years, reaching the top of Fansipan was a real challenge. Climbers had to walk through thick forests and camp on the mountain for two or three days. The weather near the top changes very quickly: it can be sunny in the morning and freezing cold, with strong winds and thick fog, in the afternoon. Even in summer, the temperature at the top may fall below 5°C, so climbers must wear warm clothes and strong boots. In 2016, a modern cable car opened. Now visitors can reach a station near the top in only about 15 minutes and then climb the last 600 steps to the summit. Thanks to the cable car, thousands of tourists — including children and old people — can enjoy the fantastic view from the top. From the summit, on a clear day, you can see a sea of white clouds, green valleys and small villages far below. However, many young people still choose the long climb because they want to test themselves and enjoy the wild nature along the way. If you plan to visit Fansipan, the best time is from September to November, when the sky is clear and the rice terraces around Sa Pa are golden.", "qs": [{"id": "Q61", "num": 61, "q": "What is the passage mainly about?", "options": ["Fansipan — the highest mountain in Indochina and how people reach its top", "The history of the town of Sa Pa", "How to build a cable car in the mountains", "The best hotels near Fansipan"], "answer": 0, "explain": "Bài đọc giới thiệu Fansipan — ngọn núi cao nhất Đông Dương — và cách lên đỉnh."}, {"id": "Q62", "num": 62, "q": "How high is Fansipan?", "options": ["3,134 metres", "3,143 metres", "3,413 metres", "3,043 metres"], "answer": 1, "explain": "Bài viết ghi rõ Fansipan cao 3,143 mét."}, {"id": "Q63", "num": 63, "q": "Fansipan is in ______ Province.", "options": ["Ha Giang", "Yen Bai", "Lao Cai", "Dien Bien"], "answer": 2, "explain": "Theo bài đọc, Fansipan thuộc tỉnh Lào Cai, gần Sa Pa."}, {"id": "Q64", "num": 64, "q": "Before 2016, how did climbers reach the top of Fansipan?", "options": ["They took a cable car.", "They went by train to the top.", "They flew by plane.", "They walked through forests and camped on the mountain for two or three days."], "answer": 3, "explain": "Trước 2016 chưa có cáp treo; người leo núi phải đi bộ và cắm trại 2–3 ngày."}, {"id": "Q65", "num": 65, "q": "What can the weather near the top be like on a summer afternoon?", "options": ["Always hot and sunny", "Warm and dry all day", "Rainy for many weeks", "Freezing cold, with strong winds and thick fog"], "answer": 3, "explain": "Bài đọc nói thời tiết gần đỉnh có thể lạnh buốt, gió mạnh và sương mù dày vào buổi chiều."}, {"id": "Q66", "num": 66, "q": "In the sentence 'it can be sunny in the morning', the word 'it' refers to ______.", "options": ["the mountain", "the cable car", "the weather", "the town"], "answer": 2, "explain": "'It' ở đây chỉ thời tiết (the weather) — cách nói về thời tiết trong tiếng Anh."}, {"id": "Q67", "num": 67, "q": "The word 'summit' in the passage is closest in meaning to ______.", "options": ["the bottom of a mountain", "the top of a mountain", "a train station", "a small village"], "answer": 1, "explain": "'Summit' = đỉnh núi, điểm cao nhất của ngọn núi."}, {"id": "Q68", "num": 68, "q": "When did the cable car to Fansipan open?", "options": ["In 2016", "In 2006", "In 2020", "In 1996"], "answer": 0, "explain": "Bài đọc ghi: 'In 2016, a modern cable car opened.'"}, {"id": "Q69", "num": 69, "q": "After the cable car ride, visitors still have to climb ______ to reach the top.", "options": ["600 steps", "60 steps", "6,000 steps", "16 steps"], "answer": 0, "explain": "Sau khi đi cáp treo, du khách leo nốt 600 bậc thang cuối để lên đỉnh."}, {"id": "Q70", "num": 70, "q": "Thanks to the cable car, who can enjoy the view from the top now?", "options": ["Only strong climbers", "Only young people", "Only local people", "Children and old people as well as other tourists"], "answer": 3, "explain": "Nhờ cáp treo, cả trẻ em và người già cũng lên được đỉnh Fansipan."}, {"id": "Q71", "num": 71, "q": "Why do many young people still choose the long climb?", "options": ["The cable car is too expensive for them.", "They want to test themselves and enjoy the wild nature along the way.", "The cable car is closed all winter.", "They don't know about the cable car."], "answer": 1, "explain": "Bài đọc nói họ muốn thử thách bản thân và tận hưởng thiên nhiên hoang dã dọc đường."}, {"id": "Q72", "num": 72, "q": "According to the passage, the best time to visit Fansipan is ______.", "options": ["from March to May", "from June to August", "from September to November", "from December to February"], "answer": 2, "explain": "Thời gian đẹp nhất là từ tháng 9 đến tháng 11, trời trong và ruộng bậc thang vàng."}, {"id": "Q73", "num": 73, "q": "Which of the following statements is TRUE according to the passage?", "options": ["Fansipan is the highest mountain in Asia.", "The temperature at the top may fall below 5°C in summer.", "The cable car takes visitors directly to the summit.", "Sa Pa is in Ha Giang Province."], "answer": 1, "explain": "Bài đọc ghi nhiệt độ trên đỉnh có thể xuống dưới 5°C ngay cả vào mùa hè; cáp treo chỉ tới trạm gần đỉnh."}, {"id": "Q74", "num": 74, "q": "Which of the following statements is NOT true according to the passage?", "options": ["The cable car journey to the station near the top takes about an hour.", "The weather near the top changes very quickly.", "Fansipan is called 'the Roof of Indochina'.", "You can see clouds and villages from the summit."], "answer": 0, "explain": "Đi cáp treo chỉ mất khoảng 15 phút, không phải một giờ — câu này sai."}, {"id": "Q75", "num": 75, "q": "The word 'freezing' in the passage is closest in meaning to ______.", "options": ["very hot", "quite warm", "a little cold", "very cold"], "answer": 3, "explain": "'Freezing (cold)' = lạnh buốt, rất lạnh."}]}]}, {"key": "read2", "title": "Reading 2: Mui Ne — Sand Dunes and the Sea", "icon": "📖", "max": 15, "parts": [{"intro": "Read the passage about Mui Ne and choose the best answer for each question.", "passage": "Mui Ne is a small coastal town in Phan Thiet City, in the south of Viet Nam. It is famous for a strange and beautiful sight: huge sand dunes next to the blue sea. There are two kinds of dunes. The White Dunes are the bigger ones; their white sand looks like snow under the sun. The Red Dunes are smaller and closer to the town, and their sand changes colour from gold to deep red at sunset. Visitors love sliding down the dunes on plastic boards, and the best time to visit is early in the morning or late in the afternoon, when the sand is not too hot. Not far from the dunes is the Fairy Stream, a small, shallow stream that runs between red and white rocks. You can walk in the cool water — it only reaches your ankles — and enjoy the quiet scenery. Mui Ne is also a fishing village. Early every morning, hundreds of round basket boats return with fresh fish, and the beach becomes a busy market. Because the wind here is strong and steady, Mui Ne is one of the best places in Viet Nam for kitesurfing. From November to April, kitesurfers from all over the world come to ride the waves. With its sunshine, seafood and sand dunes, Mui Ne is a natural wonder that is very different from Viet Nam's green mountains and forests.", "qs": [{"id": "Q76", "num": 76, "q": "What is the passage mainly about?", "options": ["How to learn kitesurfing in Mui Ne", "Mui Ne — a coastal wonder with sand dunes, a stream and the sea", "The fishing market of Phan Thiet City", "The best seafood restaurants in Viet Nam"], "answer": 1, "explain": "Bài đọc giới thiệu Mũi Né — kì quan ven biển với đồi cát, suối Tiên và biển."}, {"id": "Q77", "num": 77, "q": "Mui Ne is a town in ______ City.", "options": ["Phan Thiet", "Nha Trang", "Vung Tau", "Quy Nhon"], "answer": 0, "explain": "Câu đầu bài đọc: Mũi Né là thị trấn thuộc thành phố Phan Thiết."}, {"id": "Q78", "num": 78, "q": "Which sentence about the White Dunes is correct?", "options": ["They are smaller than the Red Dunes.", "They are closer to the town than the Red Dunes.", "Their sand turns deep red at sunset.", "They are bigger than the Red Dunes, and their white sand looks like snow."], "answer": 3, "explain": "Đồi Cát Trắng lớn hơn Đồi Cát Đỏ và cát trắng trông như tuyết dưới nắng."}, {"id": "Q79", "num": 79, "q": "When is the best time to visit the sand dunes?", "options": ["At noon, when the sand is hottest", "At midnight", "Early in the morning or late in the afternoon", "During a storm"], "answer": 2, "explain": "Nên đi sáng sớm hoặc chiều muộn khi cát không quá nóng."}, {"id": "Q80", "num": 80, "q": "The water in the Fairy Stream reaches only ______.", "options": ["your knees", "your waist", "your ankles", "your neck"], "answer": 2, "explain": "Bài đọc ghi nước suối Tiên chỉ tới mắt cá chân ('reaches your ankles')."}, {"id": "Q81", "num": 81, "q": "The word 'shallow' in the passage is OPPOSITE in meaning to ______.", "options": ["narrow", "wide", "quiet", "deep"], "answer": 3, "explain": "'Shallow' (nông, cạn) trái nghĩa với 'deep' (sâu)."}, {"id": "Q82", "num": 82, "q": "Early every morning, the basket boats return with ______.", "options": ["fresh fish", "sand for the dunes", "tourists", "kitesurfing equipment"], "answer": 0, "explain": "Thuyền thúng trở về với cá tươi và bãi biển thành khu chợ nhộn nhịp."}, {"id": "Q83", "num": 83, "q": "Why is Mui Ne a great place for kitesurfing?", "options": ["Because the water is very shallow.", "Because the wind there is strong and steady.", "Because the dunes are very high.", "Because the fish are fresh."], "answer": 1, "explain": "Gió ở Mũi Né mạnh và đều nên rất hợp với môn lướt ván diều."}, {"id": "Q84", "num": 84, "q": "Kitesurfers from all over the world come to Mui Ne ______.", "options": ["from June to August", "from May to October", "only in December", "from November to April"], "answer": 3, "explain": "Mùa lướt ván diều ở Mũi Né kéo dài từ tháng 11 đến tháng 4."}, {"id": "Q85", "num": 85, "q": "In the sentence 'their sand changes colour from gold to deep red', the word 'their' refers to ______.", "options": ["the White Dunes", "the Red Dunes", "the visitors", "the rocks"], "answer": 1, "explain": "'Their' chỉ cát của Đồi Cát Đỏ (the Red Dunes) đổi màu lúc hoàng hôn."}, {"id": "Q86", "num": 86, "q": "Why can visitors walk in the Fairy Stream but not really swim in it?", "options": ["Because the water is dangerous.", "Because there are too many fish.", "Because the water is only ankle-deep.", "Because the stream is closed to visitors."], "answer": 2, "explain": "Nước chỉ tới mắt cá chân nên chỉ có thể lội bộ, không bơi được."}, {"id": "Q87", "num": 87, "q": "Which of the following statements is TRUE according to the passage?", "options": ["The Red Dunes are smaller than the White Dunes.", "The Fairy Stream is deep enough for swimming.", "Mui Ne is in the north of Viet Nam.", "The fishing boats return in the evening."], "answer": 0, "explain": "Bài đọc nói Đồi Cát Đỏ nhỏ hơn Đồi Cát Trắng; Mũi Né ở miền Nam và thuyền về vào sáng sớm."}, {"id": "Q88", "num": 88, "q": "Which of the following statements is NOT true according to the passage?", "options": ["Visitors can slide down the dunes on plastic boards.", "The Fairy Stream runs between red and white rocks.", "The White Dunes are closer to the town than the Red Dunes.", "Kitesurfers come to Mui Ne from many countries."], "answer": 2, "explain": "Bài đọc nói Đồi Cát Đỏ mới gần thị trấn hơn, nên câu về Đồi Cát Trắng là sai."}, {"id": "Q89", "num": 89, "q": "The boards that visitors use to slide down the dunes are made of ______.", "options": ["wood", "bamboo", "metal", "plastic"], "answer": 3, "explain": "Du khách trượt cát bằng ván nhựa ('plastic boards')."}, {"id": "Q90", "num": 90, "q": "Mui Ne is different from many other natural wonders in Viet Nam because ______.", "options": ["it is the highest place in Viet Nam", "its beauty comes from sand dunes and the sea, not green mountains and forests", "it is famous for snow in winter", "it has the biggest cave in Viet Nam"], "answer": 1, "explain": "Câu cuối bài đọc nhấn mạnh Mũi Né khác hẳn các kì quan núi rừng xanh của Việt Nam."}]}]}, {"key": "arr", "title": "Sentence Building", "icon": "🔤", "max": 10, "parts": [{"intro": "Choose the correct sentence.", "passage": "", "qs": [{"id": "Q91", "num": 91, "q": "Choose the correct sentence.", "options": ["Visitors must not leave rubbish on the beach.", "Visitors must leave not rubbish on the beach.", "Must not visitors leave rubbish on the beach.", "Visitors leave must not rubbish on the beach."], "answer": 0, "explain": "Cấu trúc đúng: Chủ ngữ + must not + động từ nguyên thể + tân ngữ."}, {"id": "Q92", "num": 92, "q": "Choose the correct sentence.", "options": ["There is a lot of islands in the bay.", "There are lot of a islands in the bay.", "There are a lot of islands in the bay.", "A lot of there are islands in the bay."], "answer": 2, "explain": "'Islands' số nhiều nên dùng 'There are a lot of islands'."}, {"id": "Q93", "num": 93, "q": "Choose the correct sentence.", "options": ["How many water should we take?", "How much water should we take?", "How much should water we take?", "Should how much water we take?"], "answer": 1, "explain": "'Water' không đếm được nên dùng 'How much water should we take?'."}, {"id": "Q94", "num": 94, "q": "Choose the correct sentence.", "options": ["She is going to visiting Ha Long Bay next summer.", "She going to is visit Ha Long Bay next summer.", "She is visit going to Ha Long Bay next summer.", "She is going to visit Ha Long Bay next summer."], "answer": 3, "explain": "Cấu trúc tương lai gần: be going to + động từ nguyên thể."}, {"id": "Q95", "num": 95, "q": "Choose the correct sentence.", "options": ["You must wearing a life jacket on the boat.", "You wear must a life jacket on the boat.", "You must wear a life jacket on the boat.", "You must to wear a life jacket on the boat."], "answer": 2, "explain": "Sau 'must' là động từ nguyên thể, không thêm '-ing' hay 'to'."}, {"id": "Q96", "num": 96, "q": "Choose the correct sentence.", "options": ["We don't have any suncream left.", "We don't have some suncream left.", "We doesn't have any suncream left.", "We don't has any suncream left."], "answer": 0, "explain": "Câu phủ định dùng 'any'; chủ ngữ 'we' đi với 'don't have'."}, {"id": "Q97", "num": 97, "q": "Choose the correct sentence.", "options": ["The guide gave us some useful informations.", "The guide gave us a useful information.", "The guide gave us many useful information.", "The guide gave us some useful information."], "answer": 3, "explain": "'Information' không đếm được nên chỉ dùng được với 'some'."}, {"id": "Q98", "num": 98, "q": "Choose the correct sentence.", "options": ["There are a beautiful waterfall near the village.", "There is a beautiful waterfall near the village.", "There is beautiful a waterfall near the village.", "A beautiful waterfall there is near the village."], "answer": 1, "explain": "'A waterfall' số ít nên dùng 'There is a beautiful waterfall'."}, {"id": "Q99", "num": 99, "q": "Choose the correct sentence.", "options": ["Climbers should take a few bottles of water.", "Climbers should take a little bottles of water.", "Climbers should take a few bottle of water.", "Climbers should takes a few bottles of water."], "answer": 0, "explain": "'Bottles' đếm được số nhiều nên dùng 'a few bottles'; sau 'should' là động từ nguyên thể."}, {"id": "Q100", "num": 100, "q": "Choose the correct sentence.", "options": ["He mustn't swims in the river alone.", "He doesn't must swim in the river alone.", "He mustn't swim in the river alone.", "He mustn't to swim in the river alone."], "answer": 2, "explain": "Sau 'mustn't' dùng động từ nguyên thể 'swim', không thêm 's' hay 'to'."}]}]}], "speaking": {"title": "Speaking Challenge: A mountain trip and its rules", "task": "Work in pairs. Imagine your class is going on a trip to a famous mountain in Viet Nam next month. Talk about your trip for about one minute: where you are going, what you will see and do there, what you must take with you, and the rules everyone must and mustn't follow to stay safe and protect nature.", "prompts": ["Which mountain would you like to visit? Where is it, and how can you get there?", "What beautiful scenery and activities can you enjoy on the mountain?", "What things must you take with you on the climb? Why?", "What must you do to stay safe during the trip?", "What mustn't you do on the mountain? How can visitors protect nature there?"], "useful": ["I'd love to visit ... because it is famous for ...", "It is ... metres high, so the view from the top is fantastic.", "We must take plenty of water and ...", "Remember to wear strong boots and warm clothes.", "We must follow the guide and stay on the path.", "We mustn't leave rubbish or pick the wild flowers.", "It takes about ... hours to reach the top.", "Don't forget to bring a camera to take photos of the scenery."], "model": "Next month, I'd love to visit Fansipan in Lao Cai Province with my classmates. It is 3,143 metres high, so it is the highest mountain in Indochina. We can take the cable car, or climb for two days through beautiful forests. From the top, the scenery is fantastic, with white clouds and green valleys below. For the climb, we must take plenty of water, some food, a backpack and warm clothes, because the weather changes very fast. We must follow our guide and stay on the path. Most importantly, we mustn't leave rubbish on the mountain or pick the wild flowers. I think it will be an unforgettable trip."}, "writing": {"title": "Writing Challenge: Rules for visitors to a natural wonder", "task": "Write a paragraph of 100-120 words describing a natural wonder and the rules visitors must and mustn't follow there. Choose a famous natural wonder in Viet Nam (for example Ha Long Bay, Phong Nha Cave or Mui Ne). Say where it is, what visitors can see and do there, and write at least two rules with 'must' and two rules with 'mustn't' to keep visitors safe and protect the wonder.", "useful": ["... is one of the most famous natural wonders in Viet Nam.", "It is located in ... Province, in the north / south of Viet Nam.", "Visitors can take a boat trip and enjoy the amazing scenery.", "Visitors must wear a life jacket on the boat.", "Visitors mustn't throw rubbish into the sea.", "If everyone follows the rules, the wonder will stay beautiful forever."], "model": "Ha Long Bay, in Quang Ninh Province, is one of the most famous natural wonders in Viet Nam. It has nearly 2,000 limestone islands with amazing caves, quiet beaches and fantastic scenery. Visitors can take a boat tour, visit famous caves, swim in the clear water and eat fresh seafood. To enjoy the trip safely, visitors must wear a life jacket on the boat and must listen to the guide carefully. They mustn't throw rubbish into the sea, and they mustn't write their names on the rocks in the caves. If everyone follows these simple rules, Ha Long Bay will stay clean and beautiful for visitors in the future."}};
+var state = {};
+var checkedCount = 0, score = 0;
+var ALLQ = [];
+DATA.sections.forEach(function(s){ s.parts.forEach(function(p){ p.qs.forEach(function(q){ q.sec = s.key; ALLQ.push(q); }); }); });
+
+function speak(text){
+  try{
+    var u = new SpeechSynthesisUtterance(text);
+    u.lang = 'en-GB'; u.rate = 0.92;
+    var vs = speechSynthesis.getVoices().filter(function(v){return v.lang && v.lang.indexOf('en-GB')===0;});
+    if(vs.length) u.voice = vs[0];
+    speechSynthesis.cancel(); speechSynthesis.speak(u);
+  }catch(e){}
+}
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function renderFlashcards(){
+  var h = '';
+  DATA.flashcards.forEach(function(c,ci){
+    h += '<div class="fc" onclick="this.classList.toggle(\'flipped\')"><div class="fc-inner">'
+      + '<div class="fc-face fc-front"><div class="em">'+c.emoji+'</div><div class="hint">UNIT 4 · TAP TO FLIP 👆</div></div>'
+      + '<div class="fc-face fc-back"><div class="w">'+esc(c.word)+'</div><div class="ipa">'+esc(c.ipa)+'</div><div class="vn">'+esc(c.vn)+'</div><div class="ex">“'+esc(c.ex)+'”</div>'
+      + '<button class="speak" data-i="' + ci + '">🔊 Listen</button></div>'
+      + '</div></div>';
+  });
+  document.getElementById('fcGrid').innerHTML = h;
+}
+document.addEventListener('click', function(e){
+  var b = (e.target && e.target.closest) ? e.target.closest('.speak') : null;
+  if(b){ e.stopPropagation(); speak(DATA.flashcards[+b.getAttribute('data-i')].word); }
+});
+function renderSections(){
+  var h = '';
+  DATA.sections.forEach(function(s){
+    h += '<div class="mission-head"><div class="ic">'+s.icon+'</div><div><h2>'+s.title+'</h2><p>'+s.max+' câu</p></div></div>';
+    s.parts.forEach(function(p){
+      if(p.intro) h += '<p class="part-intro">'+esc(p.intro)+'</p>';
+      if(p.passage) h += '<div class="passage">'+p.passage+'</div>';
+      p.qs.forEach(function(q){
+        h += '<div class="card"><div class="q">Question '+q.num+'. '+q.q+'</div>';
+        h += '<div class="opts">';
+        q.options.forEach(function(op,i){
+          h += '<label id="lab_'+q.id+'_'+i+'"><input type="radio" name="'+q.id+'" value="'+i+'"> '+'ABCD'[i]+'. '+esc(op)+'</label>';
+        });
+        h += '</div>';
+        h += '<button class="btn small blue" onclick="checkQ(\''+q.id+'\')">Check ✓</button>'
+           + '<div class="feedback" id="fb_'+q.id+'"></div>'
+           + '<div class="explain" id="ex_'+q.id+'">💡 '+esc(q.explain)+'</div></div>';
+      });
+    });
+  });
+  document.getElementById('sections').innerHTML = h;
+}
+function checkQ(id){
+  var q = ALLQ.find(function(x){return x.id===id;});
+  var fb = document.getElementById('fb_'+id);
+  var sel = document.querySelector('input[name="'+id+'"]:checked');
+  if(!sel){ fb.className='feedback no'; fb.textContent='Bạn chọn một đáp án trước đã nhé! 🙂'; return; }
+  var chosen = parseInt(sel.value);
+  var isRight = chosen === q.answer;
+  var wasChecked = state[id] && state[id].checked;
+  q.options.forEach(function(_,i){
+    var lab = document.getElementById('lab_'+id+'_'+i);
+    lab.classList.remove('correct','wrong');
+    if(i===q.answer) lab.classList.add('correct');
+    else if(i===chosen) lab.classList.add('wrong');
+  });
+  if(!wasChecked){ checkedCount++; if(isRight) score++; }
+  else if(state[id].right && !isRight){ score--; }
+  else if(!state[id].right && isRight){ score++; }
+  state[id] = { chosen: chosen, checked: true, right: isRight };
+  fb.className = 'feedback ' + (isRight ? 'ok' : 'no');
+  fb.textContent = isRight ? '✓ Đúng rồi! Giỏi lắm! 🎉' : '✗ Chưa đúng — đáp án đúng đã được tô xanh, đọc giải thích bên dưới nhé.';
+  document.getElementById('ex_'+id).style.display = 'block';
+  document.getElementById('progressLine').textContent = 'Đã kiểm tra: ' + checkedCount + ' / 100 câu 🌏';
+  if(checkedCount === ALLQ.length) showReport();
+}
+function makeCode(){
+  var s = '';
+  ALLQ.forEach(function(q){
+    var st = state[q.id];
+    if(!st || !st.checked) s += '-';
+    else s += st.chosen;
+  });
+  return 'KQU5D-' + s;
+}
+function showReport(){
+  var name = document.getElementById('studentName').value.trim() || 'Kiến Quốc';
+  document.getElementById('reportName').textContent = 'Học sinh: ' + name + ' 🌏';
+  document.getElementById('reportScore').textContent = score + ' / 100';
+  var per = '';
+  DATA.sections.forEach(function(s){
+    var sc = 0, tot = 0;
+    s.parts.forEach(function(p){ p.qs.forEach(function(q){ tot++; if(state[q.id] && state[q.id].right) sc++; }); });
+    per += '<span>'+(s.title.indexOf('·')>=0 ? s.title.split('·')[1].trim() : s.title)+': '+sc+'/'+tot+'</span>';
+  });
+  document.getElementById('reportPer').innerHTML = per;
+  document.getElementById('reportMsg').textContent =
+    score>=90 ? 'Xuất sắc! Bạn đã sẵn sàng chinh phục đề thi tốt nghiệp rồi! 🏆🌏' :
+    score>=75 ? 'Rất tốt! Bạn nắm chắc phần lớn kiến thức Unit 5. Xem lại vài câu sai là hoàn hảo! 💪' :
+    score>=50 ? 'Khá tốt! Đọc lại giải thích các câu sai, ôn flashcards thêm một lượt rồi làm lại nhé! 🌈' :
+                 'Đừng nản nhé! Ôn lại từ vựng và ngữ pháp Unit 5, rồi thử sức lại — bạn sẽ tiến bộ rõ rệt! 🚀';
+  document.getElementById('reportCode').textContent = makeCode();
+  document.getElementById('report').style.display = 'block';
+  document.getElementById('report').scrollIntoView({behavior:'smooth'});
+}
+function startGame(){
+  var name = document.getElementById('studentName').value.trim();
+  if(!name){ alert('Bạn nhập họ tên trước khi bắt đầu nhé!'); return; }
+  document.getElementById('startCard').style.display = 'none';
+  document.getElementById('mainArea').style.display = 'block';
+  window.scrollTo(0,0);
+}
+function restoreGame(){
+  var code = document.getElementById('restoreCode').value.trim().toUpperCase();
+  if(code.indexOf('KQU5D-') !== 0){ alert('Mã khôi phục chưa đúng — mã bắt đầu bằng KQU5D- nhé!'); return; }
+  var digits = code.substring(6);
+  if(digits.length < ALLQ.length){ alert('Mã khôi phục chưa đủ dài, bạn kiểm tra lại nhé!'); return; }
+  if(!document.getElementById('studentName').value.trim()) document.getElementById('studentName').value = 'Kiến Quốc';
+  startGame();
+  ALLQ.forEach(function(q, i){
+    var ch = digits[i];
+    if(ch === '-') return;
+    var v = parseInt(ch);
+    if(isNaN(v)) return;
+    var inp = document.querySelector('input[name="'+q.id+'"][value="'+v+'"]');
+    if(inp){ inp.checked = true; checkQ(q.id); }
+  });
+}
+
+function renderChallenges(){
+  var h = '';
+  if(DATA.speaking){
+    var sp = DATA.speaking;
+    h += '<div class="card gold"><h2>\u{1F5E3}\u{FE0F} ' + esc(sp.title) + '</h2>'
+      + '<p class="sub">' + esc(sp.task) + '</p>'
+      + '<p style="font-weight:800;margin:10px 0 4px">Answer these questions:</p><ol style="margin:0 0 8px 22px;line-height:1.6">'
+      + sp.prompts.map(function(p){ return '<li>' + esc(p) + '</li>'; }).join('') + '</ol>'
+      + '<p style="font-weight:800;margin:10px 0 4px">Useful language:</p><div class="per">'
+      + sp.useful.map(function(u){ return '<span>' + esc(u) + '</span>'; }).join('') + '</div>'
+      + '<button class="btn small blue" onclick="var x=document.getElementById(\'spModel\');x.style.display=(x.style.display===\'block\'?\'none\':\'block\');this.textContent=(x.style.display===\'block\'?\'Hide model\':\'Show model\');">Show model</button>'
+      + '<div id="spModel" style="display:none;background:#EFF6FF;border:2px solid #BFDBFE;border-radius:12px;padding:14px 16px;margin-top:10px;line-height:1.65">' + esc(sp.model) + '</div>'
+      + '<p class="small">Ph\u1EA7n n\u00E0y kh\u00F4ng t\u00EDnh \u0111i\u1EC3m \u2014 luy\u1EC7n n\u00F3i th\u00E0nh ti\u1EBFng r\u1ED3i nh\u1EDD c\u00F4 ch\u1EA5m nh\u00E9! \u{1F399}\u{FE0F}</p></div>';
+  }
+  if(DATA.writing){
+    var wr = DATA.writing;
+    h += '<div class="card gold"><h2>\u{270D}\u{FE0F} ' + esc(wr.title) + '</h2>'
+      + '<p class="sub">' + esc(wr.task) + '</p>'
+      + '<p style="font-weight:800;margin:10px 0 4px">Useful language:</p><div class="per">'
+      + wr.useful.map(function(u){ return '<span>' + esc(u) + '</span>'; }).join('') + '</div>'
+      + '<button class="btn small blue" onclick="var x=document.getElementById(\'wrModel\');x.style.display=(x.style.display===\'block\'?\'none\':\'block\');this.textContent=(x.style.display===\'block\'?\'Hide model\':\'Show model\');">Show model</button>'
+      + '<div id="wrModel" style="display:none;background:#EFF6FF;border:2px solid #BFDBFE;border-radius:12px;padding:14px 16px;margin-top:10px;line-height:1.65">' + esc(wr.model) + '</div>'
+      + '<p class="small">Ph\u1EA7n n\u00E0y kh\u00F4ng t\u00EDnh \u0111i\u1EC3m \u2014 vi\u1EBFt v\u00E0o v\u1EDF r\u1ED3i ch\u1EE5p g\u1EEDi c\u00F4 ch\u1EA5m nh\u00E9! \u{1F4F8}</p></div>';
+  }
+  document.getElementById('challenges').innerHTML = h;
+}
+renderFlashcards();
+renderSections();
+renderChallenges();
+</script>
+</body>
+</html>
